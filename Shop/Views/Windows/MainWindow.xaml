@@ -48,25 +48,25 @@
             <StackPanel Grid.Column="0" DockPanel.Dock="Left" Background="#FF003581">
                 <Button x:Name="btnProducts" Click="ToolbarButton_Click" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="Images/Icons/whiteProductIcon.png" Width="30" Height="30"/>
+                        <Image Source="/Images/Icons/whiteProductIcon.png" Width="30" Height="30"/>
                         <TextBlock Text="Товары" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="btnOrders" Click="ToolbarButton_Click" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="Images/Icons/whiteOrderIcon.png" Width="30" Height="30"/>
+                        <Image Source="/Images/Icons/whiteOrderIcon.png" Width="30" Height="30"/>
                         <TextBlock Text="Заказы" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="btnEmpolyees" Click="ToolbarButton_Click" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="Images/Icons/whitePersonIcon.png" Width="30" Height="30"/>
+                        <Image Source="/Images/Icons/whitePersonIcon.png" Width="30" Height="30"/>
                         <TextBlock Text="Сотрудники" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="btnStatistics" Click="ToolbarButton_Click" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="Images/Icons/whiteGraphIcon.png" Width="30" Height="30"/>
+                        <Image Source="/Images/Icons/whiteGraphIcon.png" Width="30" Height="30"/>
                         <TextBlock Text="Статистика" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
                     </StackPanel>
                 </Button>                
