@@ -9,7 +9,7 @@ namespace Shop
 {
     class ShopAccessLibrary
     {
-        private string _connectionString = @"Data Source=SHABAB\SQLEXPRESS;Initial Catalog=InternetShop;Integrated Security=True";
+        private string _connectionString = @"Data Source=WIN-MTM9TBC96DI\SQLEXPRESS;Initial Catalog=Shop;Integrated Security=True";
 
         internal List<Product> GetAllProducts()
         {
