@@ -94,7 +94,8 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 
-                                <DataGrid x:Name="dataGridForFindForm" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" ItemsSource="{Binding DisplayGridDataSource}"/>
+                                <DataGrid x:Name="dataGridForFindForm" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" ItemsSource="{Binding FindProductsResult}"/>
+                                
                                 <Button Grid.Row="1" Grid.Column="0" Content="Заглушка" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30" Width="100" HorizontalAlignment="Left"/>
                                 <Button Grid.Row="1" Grid.Column="1" Content="Заглушка" Background="#FF003581" Foreground="White" Margin="10,10,0,0" Height="30" Width="100" HorizontalAlignment="Left"/>
 
@@ -116,10 +117,10 @@
                                 </Grid.RowDefinitions>
 
                                 <Label Grid.Row="0" Grid.Column="0" Content="Наименование:" HorizontalAlignment="Right"/>
-                                <TextBox Name="txtProductName_Find" Grid.Row="0" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
+                                <TextBox Name="txtProductName_Find" Grid.Row="0" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductFind_Name, Mode=TwoWay}"/>
 
                                 <Label Grid.Row="1" Grid.Column="0" Content="Бренд:" HorizontalAlignment="Right"/>
-                                <ComboBox Name="comboProductBrand_Find" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBox Name="comboProductBrand_Find" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductFind_Brand, Mode=TwoWay}">
                                     <ComboBoxItem Content="Adidas"/>
                                     <ComboBoxItem Content="Nike"/>
                                     <ComboBoxItem Content="Reebok"/>
@@ -127,7 +128,7 @@
                                 </ComboBox>
 
                                 <Label Grid.Row="2" Grid.Column="0" Content="Тип:" HorizontalAlignment="Right"/>
-                                <ComboBox Name="comboProductType_Find" Grid.Row="2" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBox Name="comboProductType_Find" Grid.Row="2" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductFind_Type, Mode=TwoWay}">
                                     <ComboBoxItem Content="Шапка"/>
                                     <ComboBoxItem Content="Кепка"/>
                                     <ComboBoxItem Content="Футболка"/>
@@ -141,7 +142,7 @@
                                 </ComboBox>
 
                                 <Label Grid.Row="3" Grid.Column="0" Content="Цвет:" HorizontalAlignment="Right"/>
-                                <ComboBox Name="comboProductColor_Find" Grid.Row="3" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBox Name="comboProductColor_Find" Grid.Row="3" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductFind_Color, Mode=TwoWay}">
                                     <ComboBoxItem Content="Чёрный"/>
                                     <ComboBoxItem Content="Белый"/>
                                     <ComboBoxItem Content="Жёлтый"/>
@@ -156,7 +157,7 @@
                                 </ComboBox>
 
                                 <Label Grid.Row="4" Grid.Column="0" Content="Размер:" HorizontalAlignment="Right"/>
-                                <ComboBox Name="comboProductSize_Find" Grid.Row="4" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBox Name="comboProductSize_Find" Grid.Row="4" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductFind_Size, Mode=TwoWay}">
                                     <ComboBoxItem Content="XS"/>
                                     <ComboBoxItem Content="S"/>
                                     <ComboBoxItem Content="M"/>
@@ -167,12 +168,12 @@
                                 </ComboBox>
 
                                 <Label Grid.Row="5" Grid.Column="0" Content="Цена:" HorizontalAlignment="Right"/>
-                                <TextBox Name="txtProductPrice_Find" Grid.Row="5" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
+                                <TextBox Name="txtProductPrice_Find" Grid.Row="5" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductFind_Price, Mode=TwoWay}"/>
 
                                 <Label Grid.Row="6" Grid.Column="0" Content="Количество:" HorizontalAlignment="Right"/>
-                                <TextBox Name="txtProductAmount_Find" Grid.Row="6" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
+                                <TextBox Name="txtProductAmount_Find" Grid.Row="6" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductFind_Amount, Mode=TwoWay}"/>
 
-                                <Button x:Name="btnFindProduct" Grid.Row="7" Grid.Column="0" Content="Поиск" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30"/>
+                                <Button x:Name="btnFindProduct" Grid.Row="7" Grid.Column="0" Content="Поиск" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30" Command="{Binding FindProductCommand}"/>
                                 <Button x:Name="btnClearProductForm" Grid.Row="7" Grid.Column="1" Content="Сброс" Background="#FF003581" Foreground="White" Margin="10,10,0,0" Height="30" Width="100" HorizontalAlignment="Left"/>
                             </Grid>
                         </StackPanel>

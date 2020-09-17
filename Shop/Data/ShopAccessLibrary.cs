@@ -199,37 +199,37 @@ namespace Shop
 
             List<string> chars = new List<string>();
 
-            if (name != string.Empty)
+            if (name != null)
             {
                 nameForQuery = $"Products.ProductName = '{name}' or Products.ProductName like '{name}%' or Products.ProductName like '%{name}%' or Products.ProductName like '%{name}'";
                 chars.Add(nameForQuery);
             }
-            if (brand != string.Empty)
+            if (brand != null)
             {
                 brandForQuery = $"Brands.BrandName = '{brand}'";
                 chars.Add(brandForQuery);
             }
-            if (type != string.Empty)
+            if (type != null)
             {
                 typeForQuery = $"Type = '{type}'";
                 chars.Add(typeForQuery);
             }
-            if (color != string.Empty)
+            if (color != null)
             {
                 colorForQuery = $"Colors.Color = '{color}'";
                 chars.Add(colorForQuery);
             }
-            if (size != string.Empty)
+            if (size != null)
             {
                 sizeForQuery = $"Sizes.Size = '{size}'";
                 chars.Add(sizeForQuery);
             }
-            if (price != string.Empty)
+            if (price != null)
             {
                 priceForQuery = $"Products.Price = {price}";
                 chars.Add(priceForQuery);
             }
-            if (amount != string.Empty)
+            if (amount != null)
             {
                 amountForQuery = $"Products.Amount = {amount}";
                 chars.Add(amountForQuery);

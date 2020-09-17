@@ -16,67 +16,75 @@ namespace Shop.ViewModels
     {
         #region Свойства секции "Товары"
         #region Товары->Форма->Наименование товара
-        private string _ProductName;
-        public string ProductName
+        private string _ProductFind_Name;
+        public string ProductFind_Name
         {
-            get => _ProductName;
-            set => Set(ref _ProductName, value);
+            get => _ProductFind_Name;
+            set => Set(ref _ProductFind_Name, value);
         }
         #endregion
 
         #region Товары->Форма->Бренд товара
-        private string _ProductBrand;
-        public string ProductBrand
+        private string _ProductFind_Brand;
+        public string ProductFind_Brand
         {
-            get => _ProductBrand;
-            set => Set(ref _ProductBrand, value);
+            get => _ProductFind_Brand;
+            set => Set(ref _ProductFind_Brand, value);
         }
         #endregion
 
         #region Товары->Форма->Тип товара
-        private string _ProductType;
-        public string ProductType
+        private string _ProductFind_Type;
+        public string ProductFind_Type
         {
-            get => _ProductType;
-            set => Set(ref _ProductType, value);
+            get => _ProductFind_Type;
+            set => Set(ref _ProductFind_Type, value);
         }
         #endregion
 
         #region Товары->Форма->Цвет товара
-        private string _ProductColor;
-        public string ProductColor
+        private string _ProductFind_Color;
+        public string ProductFind_Color
         {
-            get => _ProductColor;
-            set => Set(ref _ProductColor, value);
+            get => _ProductFind_Color;
+            set => Set(ref _ProductFind_Color, value);
         }
         #endregion
 
         #region Товары->Форма->Размер товара
-        private string _ProductSize;
-        public string ProductSize
+        private string _ProductFind_Size;
+        public string ProductFind_Size
         {
-            get => _ProductSize;
-            set => Set(ref _ProductSize, value);
+            get => _ProductFind_Size;
+            set => Set(ref _ProductFind_Size, value);
         }
         #endregion
 
         #region Товары->Форма->Цена товара
-        private string _ProductPrice;
-        public string ProductPrice
+        private string _ProductFind_Price;
+        public string ProductFind_Price
         {
-            get => _ProductPrice;
-            set => Set(ref _ProductPrice, value);
+            get => _ProductFind_Price;
+            set => Set(ref _ProductFind_Price, value);
         }
         #endregion
 
         #region Товары->Форма->Количество товара
-        private string _ProductAmount;
-        public string ProductAmount
+        private string _ProductFind_Amount;
+        public string ProductFind_Amount
         {
-            get => _ProductAmount;
-            set => Set(ref _ProductAmount, value);
+            get => _ProductFind_Amount;
+            set => Set(ref _ProductFind_Amount, value);
         }
         #endregion
+
+        private List<Product> _FindProductsResult;
+
+        public List<Product> FindProductsResult
+        {
+            get => _FindProductsResult;
+            set => Set(ref _FindProductsResult, value);
+        }
 
         private Visibility _TabControlForProductsVisibility = Visibility.Collapsed;
 
@@ -95,6 +103,7 @@ namespace Shop.ViewModels
         public void OnOpenProductsMenuWindowExecute(object p)
         {
             TabControlForProductsVisibility = Visibility.Visible;
+            IsProductsMenuOpen = true;
         }
 
         public bool CanOpenProductsMenuWindowExecute(object p)
@@ -105,10 +114,36 @@ namespace Shop.ViewModels
                 return false;
         }
         #endregion
+
+        #region Команда "Товары---Поиск---Поиск"
+        public ICommand FindProductCommand { get; }
+        public void OnFindProductCommandExecute(object p)
+        {
+            if (ProductFind_Name != null ||
+                ProductFind_Brand != null ||
+                ProductFind_Type != null ||
+                ProductFind_Color != null ||
+                ProductFind_Size != null ||
+                ProductFind_Price != null ||
+                ProductFind_Amount != null)
+            {
+                ShopAccessLibrary library = new ShopAccessLibrary();
+                FindProductsResult = library.SearchProductByCharacteristics(ProductFind_Name, ProductFind_Brand,
+                    ProductFind_Type, ProductFind_Color, ProductFind_Size, ProductFind_Price, ProductFind_Amount);
+            }
+        }
+
+        public bool CanFindProductCommandExecute(object p)
+        {
+                return true;
+        }
+        #endregion
+
         #endregion
         public MainWindowViewModel()
         {
             OpenProductsMenuWindow = new LambdaCommand(OnOpenProductsMenuWindowExecute, CanOpenProductsMenuWindowExecute);
+            FindProductCommand = new LambdaCommand(OnFindProductCommandExecute, CanFindProductCommandExecute);
         }
     }
 }

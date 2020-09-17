@@ -77,7 +77,7 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Base\ViewModel.cs" />
-    <Compile Include="ShopAccessLibrary.cs" />
+    <Compile Include="Data\ShopAccessLibrary.cs" />
     <Page Include="Views\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -133,9 +133,7 @@
   <ItemGroup>
     <SplashScreen Include="Images\Bean.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
