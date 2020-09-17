@@ -1,13 +1,20 @@
-﻿using System;
+﻿using Shop.Infrastructure.Commands;
+using Shop.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Xml;
 
 namespace Shop.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        #region Свойства формы "Товары"
         #region Товары->Форма->Наименование товара
         private string _ProductName;
         public string ProductName
@@ -70,5 +77,30 @@ namespace Shop.ViewModels
             set => Set(ref _ProductAmount, value);
         }
         #endregion
+        #endregion
+
+        #region Команды
+
+        #region Команда "Открыть меню Товары"
+        public ICommand OpenProductsMenuWindow { get; }
+        private bool IsProductsMenuOpen { get; set; } = false;
+        public void OnOpenProductsMenuWindowExecute(object p)
+        {
+            
+        }
+
+        public bool CanOpenProductsMenuWindowExecute(object p)
+        {
+            if (!IsProductsMenuOpen)
+                return true;
+            else
+                return false;
+        }
+        #endregion
+        #endregion
+        public MainWindowViewModel()
+        {
+            OpenProductsMenuWindow = new LambdaCommand(OnOpenProductsMenuWindowExecute, CanOpenProductsMenuWindowExecute);
+        }
     }
 }

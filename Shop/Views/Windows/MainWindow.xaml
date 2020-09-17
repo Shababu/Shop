@@ -7,13 +7,14 @@
         xmlns:vm="clr-namespace:Shop.ViewModels"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Shop.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="Gray" Activated="mainWindow_Activated">
+        Title="MainWindow" Height="450" Width="800" Background="Gray">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <Window.Resources>
         <System:Double x:Key="ButtonsWidth">72</System:Double>
     </Window.Resources>
+    
     <DockPanel LastChildFill="True" >
         <StackPanel DockPanel.Dock="Top" >
             <Menu Background="#FF212121">
@@ -50,25 +51,25 @@
             </Grid.ColumnDefinitions>
             
             <StackPanel Grid.Column="0" DockPanel.Dock="Left" Background="#FF003581">
-                <Button x:Name="btnProducts" Click="ToolbarButton_Click" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
+                <Button x:Name="btnProducts" HorizontalContentAlignment="Left" BorderThickness="0" IsEnabled="{Binding IsProductsBtnEnabled}" Background="#FF003581" Command="{Binding OpenProductsMenuWindow}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/Icons/whiteProductIcon.png" Width="30" Height="30"/>
                         <TextBlock Text="Товары" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnOrders" Click="ToolbarButton_Click" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
+                <Button x:Name="btnOrders" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/Icons/whiteOrderIcon.png" Width="30" Height="30"/>
                         <TextBlock Text="Заказы" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnEmpolyees" Click="ToolbarButton_Click" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
+                <Button x:Name="btnEmpolyees" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/Icons/whitePersonIcon.png" Width="30" Height="30"/>
                         <TextBlock Text="Сотрудники" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnStatistics" Click="ToolbarButton_Click" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
+                <Button x:Name="btnStatistics" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/Icons/whiteGraphIcon.png" Width="30" Height="30"/>
                         <TextBlock Text="Статистика" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
@@ -79,14 +80,198 @@
             <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
 
             <StackPanel Grid.Column="2">
-  
-                <DataGrid x:Name="displayGrid" Visibility="Collapsed" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4"/>
-                
-                <StackPanel x:Name="panelEmployees" Visibility="Collapsed" Orientation="Horizontal">
-                    <ListViewItem Content="Все сотрудники" HorizontalContentAlignment="Center" MinWidth="300" FontSize="28" />
-                    <ListViewItem Content="Добавить сотрудника" HorizontalContentAlignment="Center" Width="300" FontSize="28" MouseUp="btnAddEmployees_Click"/>
-                </StackPanel>
 
+                <TabControl>
+                    <TabItem Header="Поиск">
+                        <Grid x:Name="gridFindProductForm">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="50" Width="100"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="Наименование:" HorizontalAlignment="Right"/>
+                            <TextBox Name="txtProductName_Find" Grid.Row="0" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Бренд:" HorizontalAlignment="Right"/>
+                            <ComboBox Name="comboProductBrand_Find" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBoxItem Content="Adidas"/>
+                                <ComboBoxItem Content="Nike"/>
+                                <ComboBoxItem Content="Reebok"/>
+                                <ComboBoxItem Content="Jordan"/>
+                            </ComboBox>
+
+                            <Label Grid.Row="2" Grid.Column="0" Content="Тип:" HorizontalAlignment="Right"/>
+                            <ComboBox Name="comboProductType_Find" Grid.Row="2" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBoxItem Content="Шапка"/>
+                                <ComboBoxItem Content="Кепка"/>
+                                <ComboBoxItem Content="Футболка"/>
+                                <ComboBoxItem Content="Толстовка"/>
+                                <ComboBoxItem Content="Куртка"/>
+                                <ComboBoxItem Content="Спортивный костюм"/>
+                                <ComboBoxItem Content="Брюки"/>
+                                <ComboBoxItem Content="Шорты"/>
+                                <ComboBoxItem Content="Кроссовки"/>
+                                <ComboBoxItem Content="Носки"/>
+                            </ComboBox>
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="Цвет:" HorizontalAlignment="Right"/>
+                            <ComboBox Name="comboProductColor_Find" Grid.Row="3" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBoxItem Content="Чёрный"/>
+                                <ComboBoxItem Content="Белый"/>
+                                <ComboBoxItem Content="Жёлтый"/>
+                                <ComboBoxItem Content="Зелёный"/>
+                                <ComboBoxItem Content="Красный"/>
+                                <ComboBoxItem Content="Синий"/>
+                                <ComboBoxItem Content="Розовый"/>
+                                <ComboBoxItem Content="Коричневый"/>
+                                <ComboBoxItem Content="Фиолетовый"/>
+                                <ComboBoxItem Content="Оранжевый"/>
+                                <ComboBoxItem Content="Серый"/>
+                            </ComboBox>
+
+                            <Label Grid.Row="4" Grid.Column="0" Content="Размер:" HorizontalAlignment="Right"/>
+                            <ComboBox Name="comboProductSize_Find" Grid.Row="4" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBoxItem Content="XS"/>
+                                <ComboBoxItem Content="S"/>
+                                <ComboBoxItem Content="M"/>
+                                <ComboBoxItem Content="L"/>
+                                <ComboBoxItem Content="XL"/>
+                                <ComboBoxItem Content="XXL"/>
+                                <ComboBoxItem Content="XXXL"/>
+                            </ComboBox>
+
+                            <Label Grid.Row="5" Grid.Column="0" Content="Цена:" HorizontalAlignment="Right"/>
+                            <TextBox Name="txtProductPrice_Find" Grid.Row="5" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
+
+                            <Label Grid.Row="6" Grid.Column="0" Content="Количество:" HorizontalAlignment="Right"/>
+                            <TextBox Name="txtProductAmount_Find" Grid.Row="6" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
+
+                            <Button x:Name="btnFindProduct" Grid.Row="7" Grid.Column="0" Content="Поиск" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30"/>
+                            <Button x:Name="btnClearProductForm" Grid.Row="7" Grid.Column="1" Content="Сброс" Background="#FF003581" Foreground="White" Margin="10,10,0,0" Height="30" Width="100" HorizontalAlignment="Left"/>
+
+                            <DataGrid x:Name="dataGridForFindForm" Grid.Row="8" Grid.Column="0" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" ItemsSource="{Binding DisplayGridDataSource}"/>
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Поиск по ID">
+                        <Grid x:Name="gridFindProductByIdForm">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="50" Width="100"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="Введите ID:" HorizontalAlignment="Right"/>
+                            <TextBox Name="txtProductId" Grid.Row="0" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
+                            
+                            <Button x:Name="btnSearchProductById" Grid.Row="1" Grid.Column="0" Content="Поиск" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30"/>
+
+                            <DataGrid x:Name="dataGridForFindByIdForm" Grid.Row="2" Grid.Column="0" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" ItemsSource="{Binding DisplayGridDataSource}"/>
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Добавить">
+                        <Grid x:Name="gridAddProductForm">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="50" Width="100"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="Наименование:" HorizontalAlignment="Right"/>
+                            <TextBox Name="txtProductName_Add" Grid.Row="0" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Бренд:" HorizontalAlignment="Right"/>
+                            <ComboBox Name="comboProductBrand_Add" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBoxItem Content="Adidas"/>
+                                <ComboBoxItem Content="Nike"/>
+                                <ComboBoxItem Content="Reebok"/>
+                                <ComboBoxItem Content="Jordan"/>
+                            </ComboBox>
+
+                            <Label Grid.Row="2" Grid.Column="0" Content="Тип:" HorizontalAlignment="Right"/>
+                            <ComboBox Name="comboProductType_Add" Grid.Row="2" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBoxItem Content="Шапка"/>
+                                <ComboBoxItem Content="Кепка"/>
+                                <ComboBoxItem Content="Футболка"/>
+                                <ComboBoxItem Content="Толстовка"/>
+                                <ComboBoxItem Content="Куртка"/>
+                                <ComboBoxItem Content="Спортивный костюм"/>
+                                <ComboBoxItem Content="Брюки"/>
+                                <ComboBoxItem Content="Шорты"/>
+                                <ComboBoxItem Content="Кроссовки"/>
+                                <ComboBoxItem Content="Носки"/>
+                            </ComboBox>
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="Цвет:" HorizontalAlignment="Right"/>
+                            <ComboBox Name="comboProductColor_Add" Grid.Row="3" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBoxItem Content="Чёрный"/>
+                                <ComboBoxItem Content="Белый"/>
+                                <ComboBoxItem Content="Жёлтый"/>
+                                <ComboBoxItem Content="Зелёный"/>
+                                <ComboBoxItem Content="Красный"/>
+                                <ComboBoxItem Content="Синий"/>
+                                <ComboBoxItem Content="Розовый"/>
+                                <ComboBoxItem Content="Коричневый"/>
+                                <ComboBoxItem Content="Фиолетовый"/>
+                                <ComboBoxItem Content="Оранжевый"/>
+                                <ComboBoxItem Content="Серый"/>
+                            </ComboBox>
+
+                            <Label Grid.Row="4" Grid.Column="0" Content="Размер:" HorizontalAlignment="Right"/>
+                            <ComboBox Name="comboProductSize_Add" Grid.Row="4" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
+                                <ComboBoxItem Content="XS"/>
+                                <ComboBoxItem Content="S"/>
+                                <ComboBoxItem Content="M"/>
+                                <ComboBoxItem Content="L"/>
+                                <ComboBoxItem Content="XL"/>
+                                <ComboBoxItem Content="XXL"/>
+                                <ComboBoxItem Content="XXXL"/>
+                            </ComboBox>
+
+                            <Label Grid.Row="5" Grid.Column="0" Content="Цена:" HorizontalAlignment="Right"/>
+                            <TextBox Name="txtProductPrice_Add" Grid.Row="5" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
+
+                            <Label Grid.Row="6" Grid.Column="0" Content="Количество:" HorizontalAlignment="Right"/>
+                            <TextBox Name="txtProductAmount_Add" Grid.Row="6" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
+
+                            <Button x:Name="btnAddProduct" Grid.Row="7" Grid.Column="0" Content="Добавить" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30"/>
+                            <Button x:Name="btnClearAddProductForm" Grid.Row="7" Grid.Column="1" Content="Сброс" Background="#FF003581" Foreground="White" Margin="10,10,0,0" Height="30" Width="100" HorizontalAlignment="Left"/>
+
+                            <DataGrid x:Name="dataGridForAddForm" Grid.Row="8" Grid.Column="0" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" ItemsSource="{Binding DisplayGridDataSource}"/>
+
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Все товары">
+                        <DataGrid x:Name="dataGridForAllProductsForm" Grid.Row="8" Grid.Column="0" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" ItemsSource="{Binding DisplayGridDataSource}"/>
+                    </TabItem>
+                </TabControl>
+                             
                 <Grid x:Name="gridAddEmployeeForm" Visibility="Collapsed">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MinWidth="50" Width="100"/>
@@ -103,8 +288,8 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Row="0" Grid.Column="0" Content="Вернуться" Background="#FF3B98B4" Margin="0,5,0,10" Height="30" Click="btnBackToEmployeesMenu_Click"/>
-                    
+                    <Button Grid.Row="0" Grid.Column="0" Content="Вернуться" Background="#FF3B98B4" Margin="0,5,0,10" Height="30"/>
+
                     <Label Grid.Row="1" Grid.Column="0" Content="Фамилия:" HorizontalAlignment="Right"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="140" HorizontalAlignment="Left" />
 
@@ -127,84 +312,6 @@
                     <TextBox Grid.Row="6" Grid.Column="1" Margin="10,5,0,0" Width="140" HorizontalAlignment="Left" />
 
                     <Button Grid.Row="7" Grid.Column="0" Content="Добавить" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30"/>
-                </Grid>
-
-                <Grid x:Name="gridAddProductForm" Visibility="Collapsed">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="50" Width="100"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <Label Grid.Row="0" Grid.Column="0" Content="Наименование:" HorizontalAlignment="Right"/>
-                    <TextBox Name="txtProductName_Add" Grid.Row="0" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
-
-                    <Label Grid.Row="1" Grid.Column="0" Content="Бренд:" HorizontalAlignment="Right"/>
-                    <ComboBox Name="comboProductBrand_Add" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
-                        <ComboBoxItem Content="Adidas"/>
-                        <ComboBoxItem Content="Nike"/>
-                        <ComboBoxItem Content="Reebok"/>
-                        <ComboBoxItem Content="Jordan"/>
-                    </ComboBox>
-
-                    <Label Grid.Row="2" Grid.Column="0" Content="Тип:" HorizontalAlignment="Right"/>
-                    <ComboBox Name="comboProductType_Add" Grid.Row="2" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
-                        <ComboBoxItem Content="Шапка"/>
-                        <ComboBoxItem Content="Кепка"/>
-                        <ComboBoxItem Content="Футболка"/>
-                        <ComboBoxItem Content="Толстовка"/>
-                        <ComboBoxItem Content="Куртка"/>
-                        <ComboBoxItem Content="Спортивный костюм"/>
-                        <ComboBoxItem Content="Брюки"/>
-                        <ComboBoxItem Content="Шорты"/>
-                        <ComboBoxItem Content="Кроссовки"/>
-                        <ComboBoxItem Content="Носки"/>
-                    </ComboBox>
-
-                    <Label Grid.Row="3" Grid.Column="0" Content="Цвет:" HorizontalAlignment="Right"/>
-                    <ComboBox Name="comboProductColor_Add" Grid.Row="3" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
-                        <ComboBoxItem Content="Чёрный"/>
-                        <ComboBoxItem Content="Белый"/>
-                        <ComboBoxItem Content="Жёлтый"/>
-                        <ComboBoxItem Content="Зелёный"/>
-                        <ComboBoxItem Content="Красный"/>
-                        <ComboBoxItem Content="Синий"/>
-                        <ComboBoxItem Content="Розовый"/>
-                        <ComboBoxItem Content="Коричневый"/>
-                        <ComboBoxItem Content="Фиолетовый"/>
-                        <ComboBoxItem Content="Оранжевый"/>
-                        <ComboBoxItem Content="Серый"/>
-                    </ComboBox>
-
-                    <Label Grid.Row="4" Grid.Column="0" Content="Размер:" HorizontalAlignment="Right"/>
-                    <ComboBox Name="comboProductSize_Add" Grid.Row="4" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left">
-                        <ComboBoxItem Content="XS"/>
-                        <ComboBoxItem Content="S"/>
-                        <ComboBoxItem Content="M"/>
-                        <ComboBoxItem Content="L"/>
-                        <ComboBoxItem Content="XL"/>
-                        <ComboBoxItem Content="XXL"/>
-                        <ComboBoxItem Content="XXXL"/>
-                    </ComboBox>
-
-                    <Label Grid.Row="5" Grid.Column="0" Content="Цена:" HorizontalAlignment="Right"/>
-                    <TextBox Name="txtProductPrice_Add" Grid.Row="5" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
-
-                    <Label Grid.Row="6" Grid.Column="0" Content="Количество:" HorizontalAlignment="Right"/>
-                    <TextBox Name="txtProductAmount_Add" Grid.Row="6" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" />
-
-                    <Button x:Name="btnAddProduct" Grid.Row="7" Grid.Column="0" Content="Добавить" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30" Click="btnAddProduct_Click"/>
-                    <Button x:Name="btnSearchProduct" Grid.Row="7" Grid.Column="0" Content="Поиск" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30" Click="btnSearchProduct_Click"/>
-                    <Button x:Name="btnClearProductForm" Grid.Row="7" Grid.Column="1" Content="Сброс" Background="#FF003581" Foreground="White" Margin="10,10,0,0" Height="30" Width="100" HorizontalAlignment="Left" Click="btnClearProductForm_Click"/>
                 </Grid>
             </StackPanel>
         </Grid>

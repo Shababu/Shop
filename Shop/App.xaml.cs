@@ -13,16 +13,5 @@ namespace Shop
     /// </summary>
     public partial class App : Application
     {
-        public enum MenuPicks
-        {
-            NullPick,
-            AllProducts,
-            AddProduct,
-            ProductsSearch,
-            ProductsSearchById
-        }
-
-        public MenuPicks MenuPick = MenuPicks.NullPick;
-
     }
 }
