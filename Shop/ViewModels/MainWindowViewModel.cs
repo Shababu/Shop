@@ -14,7 +14,7 @@ namespace Shop.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        #region Свойства формы "Товары"
+        #region Свойства секции "Товары"
         #region Товары->Форма->Наименование товара
         private string _ProductName;
         public string ProductName
@@ -77,6 +77,14 @@ namespace Shop.ViewModels
             set => Set(ref _ProductAmount, value);
         }
         #endregion
+
+        private Visibility _TabControlForProductsVisibility = Visibility.Collapsed;
+
+        public Visibility TabControlForProductsVisibility
+        { 
+            get => _TabControlForProductsVisibility; 
+            set => Set(ref _TabControlForProductsVisibility, value); 
+        }
         #endregion
 
         #region Команды
@@ -86,7 +94,7 @@ namespace Shop.ViewModels
         private bool IsProductsMenuOpen { get; set; } = false;
         public void OnOpenProductsMenuWindowExecute(object p)
         {
-            
+            TabControlForProductsVisibility = Visibility.Visible;
         }
 
         public bool CanOpenProductsMenuWindowExecute(object p)
