@@ -89,9 +89,17 @@ namespace Shop.ViewModels
         private Visibility _TabControlForProductsVisibility = Visibility.Collapsed;
 
         public Visibility TabControlForProductsVisibility
-        { 
-            get => _TabControlForProductsVisibility; 
-            set => Set(ref _TabControlForProductsVisibility, value); 
+        {
+            get => _TabControlForProductsVisibility;
+            set => Set(ref _TabControlForProductsVisibility, value);
+        }
+
+        private Visibility _DataGridForFindFormVisibility = Visibility.Collapsed;
+
+        public Visibility DataGridForFindFormVisibility
+        {
+            get => _DataGridForFindFormVisibility;
+            set => Set(ref _DataGridForFindFormVisibility, value);
         }
         #endregion
 
@@ -130,6 +138,7 @@ namespace Shop.ViewModels
                 ShopAccessLibrary library = new ShopAccessLibrary();
                 FindProductsResult = library.SearchProductByCharacteristics(ProductFind_Name, ProductFind_Brand,
                     ProductFind_Type, ProductFind_Color, ProductFind_Size, ProductFind_Price, ProductFind_Amount);
+                DataGridForFindFormVisibility = Visibility.Visible;
             }
         }
 
