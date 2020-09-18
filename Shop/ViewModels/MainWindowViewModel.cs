@@ -101,6 +101,8 @@ namespace Shop.ViewModels
             get => _DataGridForFindFormVisibility;
             set => Set(ref _DataGridForFindFormVisibility, value);
         }
+
+        
         #endregion
 
         #region Команды
@@ -148,11 +150,30 @@ namespace Shop.ViewModels
         }
         #endregion
 
+        #region "Товары---Поиск---Сброс"
+
+        public ICommand ClearFindProductFormCommand { get; }
+        public void OnClearFindProductFormCommandExecute(object p)
+        {
+            ProductFind_Name = ProductFind_Brand = ProductFind_Type = ProductFind_Color = 
+                ProductFind_Size = ProductFind_Price = ProductFind_Amount = null;
+            FindProductsResult = null;
+            DataGridForFindFormVisibility = Visibility.Collapsed;
+        }
+
+        public bool CanClearFindProductFormCommandExecute(object p)
+        {
+            return true;
+        }
+
+        #endregion
+
         #endregion
         public MainWindowViewModel()
         {
             OpenProductsMenuWindow = new LambdaCommand(OnOpenProductsMenuWindowExecute, CanOpenProductsMenuWindowExecute);
             FindProductCommand = new LambdaCommand(OnFindProductCommandExecute, CanFindProductCommandExecute);
+            ClearFindProductFormCommand = new LambdaCommand(OnClearFindProductFormCommandExecute, CanClearFindProductFormCommandExecute);
         }
     }
 }

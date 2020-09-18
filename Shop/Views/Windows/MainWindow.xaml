@@ -96,8 +96,8 @@
 
                                 <DataGrid x:Name="dataGridForFindForm" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" Visibility="{Binding DataGridForFindFormVisibility}" ItemsSource="{Binding FindProductsResult}"/>
                                 
-                                <Button Grid.Row="1" Grid.Column="0" Content="Заглушка" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30" Width="100" HorizontalAlignment="Left"/>
-                                <Button Grid.Row="1" Grid.Column="1" Content="Заглушка" Background="#FF003581" Foreground="White" Margin="10,10,0,0" Height="30" Width="100" HorizontalAlignment="Left"/>
+                                <Button Grid.Row="1" Grid.Column="0" Content="Заглушка" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30" Width="100" HorizontalAlignment="Left" Visibility="Collapsed"/>
+                                <Button Grid.Row="1" Grid.Column="1" Content="Заглушка" Background="#FF003581" Foreground="White" Margin="10,10,0,0" Height="30" Width="100" HorizontalAlignment="Left" Visibility="Collapsed"/>
 
                             </Grid>
                             <Grid x:Name="gridFindProductForm">
@@ -174,7 +174,7 @@
                                 <TextBox Name="txtProductAmount_Find" Grid.Row="6" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductFind_Amount, Mode=TwoWay}"/>
 
                                 <Button x:Name="btnFindProduct" Grid.Row="7" Grid.Column="0" Content="Поиск" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30" Command="{Binding FindProductCommand}"/>
-                                <Button x:Name="btnClearProductForm" Grid.Row="7" Grid.Column="1" Content="Сброс" Background="#FF003581" Foreground="White" Margin="10,10,0,0" Height="30" Width="100" HorizontalAlignment="Left"/>
+                                <Button x:Name="btnClearProductForm" Grid.Row="7" Grid.Column="1" Content="Сброс" Background="#FF003581" Foreground="White" Margin="10,10,0,0" Height="30" Width="100" HorizontalAlignment="Left" Command="{Binding ClearFindProductFormCommand}"/>
                             </Grid>
                         </StackPanel>
                     </TabItem>
