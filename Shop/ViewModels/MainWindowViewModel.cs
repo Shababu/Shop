@@ -15,6 +15,15 @@ namespace Shop.ViewModels
     internal class MainWindowViewModel : ViewModel
     {
         #region Свойства секции "Товары"
+
+        private Visibility _TabControlForProductsVisibility = Visibility.Collapsed;
+
+        public Visibility TabControlForProductsVisibility
+        {
+            get => _TabControlForProductsVisibility;
+            set => Set(ref _TabControlForProductsVisibility, value);
+        }
+
         #region Товары->Форма->Наименование товара
         private string _ProductFind_Name;
         public string ProductFind_Name
@@ -78,6 +87,8 @@ namespace Shop.ViewModels
         }
         #endregion
 
+        #region Свойства для "Товары---Поиск"
+
         private List<Product> _FindProductsResult;
 
         public List<Product> FindProductsResult
@@ -86,23 +97,37 @@ namespace Shop.ViewModels
             set => Set(ref _FindProductsResult, value);
         }
 
-        private Visibility _TabControlForProductsVisibility = Visibility.Collapsed;
+        private Visibility _DataGridForFindProductFormVisibility = Visibility.Collapsed;
 
-        public Visibility TabControlForProductsVisibility
+        public Visibility DataGridForFindProductFormVisibility
         {
-            get => _TabControlForProductsVisibility;
-            set => Set(ref _TabControlForProductsVisibility, value);
+            get => _DataGridForFindProductFormVisibility;
+            set => Set(ref _DataGridForFindProductFormVisibility, value);
+        }
+        #endregion
+
+        #region Свойства для "Товары---Поиск по Id"
+        private string _ProductFindByID_Id = null;
+        public string ProductFindById_Id
+        {
+            get => _ProductFindByID_Id;
+            set => Set(ref _ProductFindByID_Id, value);
+        }
+        private List<Product> _FindProductsByIdResult;
+        public List<Product> FindProductsByIdResult
+        {
+            get => _FindProductsByIdResult;
+            set => Set(ref _FindProductsByIdResult, value);
         }
 
-        private Visibility _DataGridForFindFormVisibility = Visibility.Collapsed;
-
-        public Visibility DataGridForFindFormVisibility
+        private Visibility _DataGridForFindProductByIdFormVisibility = Visibility.Collapsed;
+        public Visibility DataGridForFindProductByIdFormVisibility
         {
-            get => _DataGridForFindFormVisibility;
-            set => Set(ref _DataGridForFindFormVisibility, value);
+            get => _DataGridForFindProductByIdFormVisibility;
+            set => Set(ref _DataGridForFindProductByIdFormVisibility, value);
         }
+        #endregion 
 
-        
         #endregion
 
         #region Команды
@@ -140,17 +165,17 @@ namespace Shop.ViewModels
                 ShopAccessLibrary library = new ShopAccessLibrary();
                 FindProductsResult = library.SearchProductByCharacteristics(ProductFind_Name, ProductFind_Brand,
                     ProductFind_Type, ProductFind_Color, ProductFind_Size, ProductFind_Price, ProductFind_Amount);
-                DataGridForFindFormVisibility = Visibility.Visible;
+                DataGridForFindProductFormVisibility = Visibility.Visible;
             }
         }
 
         public bool CanFindProductCommandExecute(object p)
         {
-                return true;
+            return true;
         }
         #endregion
 
-        #region "Товары---Поиск---Сброс"
+        #region Команда "Товары---Поиск---Сброс"
 
         public ICommand ClearFindProductFormCommand { get; }
         public void OnClearFindProductFormCommandExecute(object p)
@@ -158,10 +183,31 @@ namespace Shop.ViewModels
             ProductFind_Name = ProductFind_Brand = ProductFind_Type = ProductFind_Color = 
                 ProductFind_Size = ProductFind_Price = ProductFind_Amount = null;
             FindProductsResult = null;
-            DataGridForFindFormVisibility = Visibility.Collapsed;
+            DataGridForFindProductFormVisibility = Visibility.Collapsed;
         }
 
         public bool CanClearFindProductFormCommandExecute(object p)
+        {
+            return true;
+        }
+
+        #endregion
+
+        #region Команда "Товары---Поиск по ID---Поиск"
+
+        public ICommand FindProductByIdCommand { get; }
+
+        public void OnFindProductByIdCommandExecute(object p)
+        {
+            ShopAccessLibrary library = new ShopAccessLibrary();
+            int id = Convert.ToInt32(ProductFindById_Id);
+            List<Product> product = new List<Product>();
+            product.Add(library.GetProductById(id));
+            FindProductsByIdResult = product;
+            DataGridForFindProductByIdFormVisibility = Visibility.Visible;
+        }
+
+        public bool CanFindProductByIdCommandExecute(object p)
         {
             return true;
         }
@@ -174,6 +220,7 @@ namespace Shop.ViewModels
             OpenProductsMenuWindow = new LambdaCommand(OnOpenProductsMenuWindowExecute, CanOpenProductsMenuWindowExecute);
             FindProductCommand = new LambdaCommand(OnFindProductCommandExecute, CanFindProductCommandExecute);
             ClearFindProductFormCommand = new LambdaCommand(OnClearFindProductFormCommandExecute, CanClearFindProductFormCommandExecute);
+            FindProductByIdCommand = new LambdaCommand(OnFindProductByIdCommandExecute, CanFindProductByIdCommandExecute);
         }
     }
 }

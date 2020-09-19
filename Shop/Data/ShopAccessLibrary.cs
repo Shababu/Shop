@@ -73,7 +73,7 @@ namespace Shop
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand($"Select ProductID, ProductName, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount from Products join Brands on Brands.BrandID = Products.BrandID join Colors_Sizes on Products.Color_SizeID = Colors_Sizes.Color_SizeID join Colors on Colors.ColorID = Colors_Sizes.ColorID join Sizes on Sizes.SizeID = Colors_Sizes.SizeID where ProductID = {productId}");
+                SqlCommand command = new SqlCommand($"Select ProductID, ProductName, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount from Products join Brands on Brands.BrandID = Products.BrandID join Colors_Sizes on Products.Color_SizeID = Colors_Sizes.Color_SizeID join Colors on Colors.ColorID = Colors_Sizes.ColorID join Sizes on Sizes.SizeID = Colors_Sizes.SizeID where ProductID = {productId}", connection);
                 SqlDataReader reader = command.ExecuteReader();
                 reader.Read();
                 return new Product(
