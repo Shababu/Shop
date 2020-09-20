@@ -24,7 +24,11 @@ namespace Shop.ViewModels
             set => Set(ref _TabControlForProductsVisibility, value);
         }
 
-        #region Товары->Форма->Наименование товара
+
+
+        #region Свойства для "Товары---Поиск"
+
+        #region Товары->Поиск->Наименование товара
         private string _ProductFind_Name;
         public string ProductFind_Name
         {
@@ -33,7 +37,7 @@ namespace Shop.ViewModels
         }
         #endregion
 
-        #region Товары->Форма->Бренд товара
+        #region Товары->Поиск->Бренд товара
         private string _ProductFind_Brand;
         public string ProductFind_Brand
         {
@@ -42,7 +46,7 @@ namespace Shop.ViewModels
         }
         #endregion
 
-        #region Товары->Форма->Тип товара
+        #region Товары->Поиск->Тип товара
         private string _ProductFind_Type;
         public string ProductFind_Type
         {
@@ -51,7 +55,7 @@ namespace Shop.ViewModels
         }
         #endregion
 
-        #region Товары->Форма->Цвет товара
+        #region Товары->Поиск->Цвет товара
         private string _ProductFind_Color;
         public string ProductFind_Color
         {
@@ -60,7 +64,7 @@ namespace Shop.ViewModels
         }
         #endregion
 
-        #region Товары->Форма->Размер товара
+        #region Товары->Поиск->Размер товара
         private string _ProductFind_Size;
         public string ProductFind_Size
         {
@@ -69,7 +73,7 @@ namespace Shop.ViewModels
         }
         #endregion
 
-        #region Товары->Форма->Цена товара
+        #region Товары->Поиск->Цена товара
         private string _ProductFind_Price;
         public string ProductFind_Price
         {
@@ -78,7 +82,7 @@ namespace Shop.ViewModels
         }
         #endregion
 
-        #region Товары->Форма->Количество товара
+        #region Товары->Поиск->Количество товара
         private string _ProductFind_Amount;
         public string ProductFind_Amount
         {
@@ -86,8 +90,6 @@ namespace Shop.ViewModels
             set => Set(ref _ProductFind_Amount, value);
         }
         #endregion
-
-        #region Свойства для "Товары---Поиск"
 
         private List<Product> _FindProductsResult;
 
@@ -126,7 +128,77 @@ namespace Shop.ViewModels
             get => _DataGridForFindProductByIdFormVisibility;
             set => Set(ref _DataGridForFindProductByIdFormVisibility, value);
         }
-        #endregion 
+        #endregion
+
+        #region Свойства для "Товары---Добавить"
+
+        #region Товары->Добавить->Наименование товара
+        private string _ProductAdd_Name;
+        public string ProductAdd_Name
+        {
+            get => _ProductAdd_Name;
+            set => Set(ref _ProductAdd_Name, value);
+        }
+        #endregion
+
+        #region Товары->Добавить->Бренд товара
+        private string _ProductAdd_Brand;
+        public string ProductAdd_Brand
+        {
+            get => _ProductAdd_Brand;
+            set => Set(ref _ProductAdd_Brand, value);
+        }
+        #endregion
+
+        #region Товары->Добавить->Тип товара
+        private string _ProductAdd_Type;
+        public string ProductAdd_Type
+        {
+            get => _ProductAdd_Type;
+            set => Set(ref _ProductAdd_Type, value);
+        }
+        #endregion
+
+        #region Товары->Добавить->Цвет товара
+        private string _ProductAdd_Color;
+        public string ProductAdd_Color
+        {
+            get => _ProductAdd_Color;
+            set => Set(ref _ProductAdd_Color, value);
+        }
+        #endregion
+
+        #region Товары->Добавить->Размер товара
+
+        private string _ProductAdd_Size;
+        public string ProductAdd_Size
+        {
+            get => _ProductAdd_Size;
+            set => Set(ref _ProductAdd_Size, value);
+        }
+        #endregion
+
+        #region Товары->Добавить->Цена товара
+        private string _ProductAdd_Price;
+        public string ProductAdd_Price
+        {
+            get => _ProductAdd_Price;
+            set => Set(ref _ProductAdd_Price, value);
+        }
+        #endregion
+
+        #region Товары->Добавить->Количество товара
+        private string _ProductAdd_Amount;
+        public string ProductAdd_Amount
+        {
+            get => _ProductAdd_Amount;
+            set => Set(ref _ProductAdd_Amount, value);
+        }
+        #endregion
+
+        #endregion
+
+
 
         #endregion
 
@@ -214,6 +286,42 @@ namespace Shop.ViewModels
 
         #endregion
 
+        #region Команда "Товары---Добавить---Добавить"
+
+        public ICommand AddProductCommand { get; }
+        public void OnAddProductCommandExecute(object p)
+        {
+            if (ProductAdd_Name != null &&
+                ProductAdd_Brand != null &&
+                ProductAdd_Type != null &&
+                ProductAdd_Color != null &&
+                ProductAdd_Size != null &&
+                ProductAdd_Price != null &&
+                ProductAdd_Amount != null)
+            {
+                ShopAccessLibrary library = new ShopAccessLibrary();
+                try
+                {
+                    library.AddProduct(ProductAdd_Name, ProductAdd_Brand,
+                        ProductAdd_Type, ProductAdd_Color, ProductAdd_Size, ProductAdd_Price, ProductAdd_Amount);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                ProductAdd_Name = ProductAdd_Brand = ProductAdd_Type = ProductAdd_Color =
+                ProductAdd_Size = ProductAdd_Price = ProductAdd_Amount = null;
+            }
+        }
+
+        public bool CanAddProductCommandExecute(object p)
+        {
+            return true;
+        }
+
+        #endregion
+
         #endregion
         public MainWindowViewModel()
         {
@@ -221,6 +329,7 @@ namespace Shop.ViewModels
             FindProductCommand = new LambdaCommand(OnFindProductCommandExecute, CanFindProductCommandExecute);
             ClearFindProductFormCommand = new LambdaCommand(OnClearFindProductFormCommandExecute, CanClearFindProductFormCommandExecute);
             FindProductByIdCommand = new LambdaCommand(OnFindProductByIdCommandExecute, CanFindProductByIdCommandExecute);
+            AddProductCommand = new LambdaCommand(OnAddProductCommandExecute, CanAddProductCommandExecute);
         }
     }
 }
