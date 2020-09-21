@@ -295,9 +295,19 @@ namespace Shop.ViewModels
             ShopAccessLibrary library = new ShopAccessLibrary();
             int id = Convert.ToInt32(ProductFindById_Id);
             List<Product> product = new List<Product>();
-            product.Add(library.GetProductById(id));
+
+            try
+            {
+                product.Add(library.GetProductById(id));
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             FindProductsByIdResult = product;
             DataGridForFindProductByIdFormVisibility = Visibility.Visible;
+            
         }
 
         public bool CanFindProductByIdCommandExecute(object p)
