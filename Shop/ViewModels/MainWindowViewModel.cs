@@ -24,8 +24,6 @@ namespace Shop.ViewModels
             set => Set(ref _TabControlForProductsVisibility, value);
         }
 
-
-
         #region Свойства для "Товары---Поиск"
 
         #region Товары->Поиск->Наименование товара
@@ -198,7 +196,30 @@ namespace Shop.ViewModels
 
         #endregion
 
+        #region Свойства для "Товары---Все товары"
 
+        #region Свойство "Товары---Все товары---Items Source"
+
+        private List<Product> _AllProducts = new List<Product>();
+
+        public List<Product> AllProducts
+        {
+            get => _AllProducts;
+            set => Set(ref _AllProducts, value);
+        }
+
+        #endregion
+
+        #region Свойство "Товары---Все товары---DataGrid Visibility"
+        private Visibility _DataGridForAllProductsVisibility = Visibility.Collapsed;
+
+        public Visibility DataGridForAllProductsVisibility
+        {
+            get => _DataGridForAllProductsVisibility;
+            set => Set(ref _DataGridForAllProductsVisibility, value);
+        }
+        #endregion
+        #endregion
 
         #endregion
 
@@ -322,6 +343,24 @@ namespace Shop.ViewModels
 
         #endregion
 
+        #region Команда "Товары---Все товары"
+
+        public ICommand ShowAllProductsCommand { get; }
+
+        public void OnShowAllProductsCommandExecute(object p)
+        {
+            ShopAccessLibrary library = new ShopAccessLibrary();
+            AllProducts = library.GetAllProducts();
+            DataGridForAllProductsVisibility = Visibility.Visible;
+        }
+
+        public bool CanShowAllProductsCommandExecute(object p)
+        {
+            return true;
+        }
+
+        #endregion
+
         #endregion
         public MainWindowViewModel()
         {
@@ -330,6 +369,7 @@ namespace Shop.ViewModels
             ClearFindProductFormCommand = new LambdaCommand(OnClearFindProductFormCommandExecute, CanClearFindProductFormCommandExecute);
             FindProductByIdCommand = new LambdaCommand(OnFindProductByIdCommandExecute, CanFindProductByIdCommandExecute);
             AddProductCommand = new LambdaCommand(OnAddProductCommandExecute, CanAddProductCommandExecute);
+            ShowAllProductsCommand = new LambdaCommand(OnShowAllProductsCommandExecute, CanShowAllProductsCommandExecute);
         }
     }
 }
