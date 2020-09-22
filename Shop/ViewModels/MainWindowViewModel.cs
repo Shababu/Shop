@@ -227,19 +227,14 @@ namespace Shop.ViewModels
 
         #region Команда "Открыть меню Товары"
         public ICommand OpenProductsMenuWindow { get; }
-        private bool IsProductsMenuOpen { get; set; } = false;
         public void OnOpenProductsMenuWindowExecute(object p)
         {
             TabControlForProductsVisibility = Visibility.Visible;
-            IsProductsMenuOpen = true;
         }
 
         public bool CanOpenProductsMenuWindowExecute(object p)
         {
-            if (!IsProductsMenuOpen)
                 return true;
-            else
-                return false;
         }
         #endregion
 

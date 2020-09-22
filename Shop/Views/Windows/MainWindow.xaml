@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Shop"
         xmlns:vm="clr-namespace:Shop.ViewModels"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Shop.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Background="Gray">
@@ -53,26 +54,26 @@
             <StackPanel Grid.Column="0" DockPanel.Dock="Left" Background="#FF003581">
                 <Button x:Name="btnProducts" HorizontalContentAlignment="Left" BorderThickness="0" IsEnabled="{Binding IsProductsBtnEnabled}" Background="#FF003581" Command="{Binding OpenProductsMenuWindow}">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/Icons/whiteProductIcon.png" Width="30" Height="30"/>
-                        <TextBlock Text="Товары" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
+                        <fa:ImageAwesome Icon="Solid_Tshirt" Height="25" Margin="5,3,0,3" Foreground="White"/>
+                        <TextBlock Text="Товары" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="10 0 0 0"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="btnOrders" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/Icons/whiteOrderIcon.png" Width="30" Height="30"/>
-                        <TextBlock Text="Заказы" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
+                        <fa:ImageAwesome Icon="Solid_ClipboardCheck" Height="27" Margin="10,3,0,3" Foreground="White"/>
+                        <TextBlock Text="Заказы" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="18 0 0 0"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="btnEmpolyees" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/Icons/whitePersonIcon.png" Width="30" Height="30"/>
+                        <fa:ImageAwesome Icon="Solid_User" Height="27" Margin="9,3,0,3" Foreground="White"/>
                         <TextBlock Text="Сотрудники" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="btnStatistics" Background="#FF003581" HorizontalContentAlignment="Left" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Images/Icons/whiteGraphIcon.png" Width="30" Height="30"/>
-                        <TextBlock Text="Статистика" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="15 0 0 0"/>
+                        <fa:ImageAwesome Icon="Solid_ChartLine" Height="27" Margin="6,3,0,3" Width="30" Foreground="White"/>
+                        <TextBlock Text="Статистика" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="12 0 0 0"/>
                     </StackPanel>
                 </Button>                
             </StackPanel>
