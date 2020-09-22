@@ -57,6 +57,7 @@
       <HintPath>..\packages\FontAwesome5.2.0.8\lib\net472\FontAwesome5.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -124,21 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Icons\orderIcon.png" />
-    <Resource Include="Images\Icons\personIcon.png" />
-    <Resource Include="Images\Icons\productIcon.png" />
-    <Resource Include="Images\Icons\whiteOrderIcon.png" />
-    <Resource Include="Images\Icons\whitePersonIcon.png" />
-    <Resource Include="Images\Icons\whiteProductIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Icons\graphIcon.png" />
-    <Resource Include="Images\Icons\whiteGraphIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <SplashScreen Include="Images\Bean.jpg" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

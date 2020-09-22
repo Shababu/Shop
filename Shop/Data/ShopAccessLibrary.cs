@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Windows;
@@ -9,7 +10,7 @@ namespace Shop
 {
     class ShopAccessLibrary
     {
-        private string _connectionString = @"Data Source=WIN-MTM9TBC96DI\SQLEXPRESS;Initial Catalog=Shop;Integrated Security=True";
+        private string _connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
 
         internal List<Product> GetAllProducts()
         {
@@ -275,4 +276,3 @@ namespace Shop
         }
     }
 }
-// Test
