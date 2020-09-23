@@ -38,30 +38,25 @@ namespace Shop
             return products;
         }
 
-        internal List<Order> GetOrdersToComplete()
+        internal List<ActiveOrder> GetActiveOrders()
         {
-            List<Order> orders = new List<Order>();
+            List<ActiveOrder> orders = new List<ActiveOrder>();
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("select distinct Orders.OrderID, Managers.ManagerLName, Managers.ManagerFName, Orders.OrderDate, Orders.Status, Orders.CompletionDate from Orders_Products join Orders on Orders_Products.OrderID = Orders.OrderID join Managers on Orders.ManagerID = Managers.ManagerID where Orders.Status = 'Не выполнен'", connection);
+                SqlCommand command = new SqlCommand("select distinct Orders.OrderID, Managers.ManagerLName, Managers.ManagerFName, Customers.CustomerLName, Customers.CustomerFName, Orders.OrderDate from Orders join Managers on Orders.ManagerID = Managers.ManagerID join Customers on Orders.CustomerID = Customers.CustomerID where Orders.Status = 'Не выполнен'", connection);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    DateTime completionDate = new DateTime();
-
-                    if (reader.GetValue(5) == null)
-                    {
-                        completionDate = DateTime.MinValue;
-                    }
-                    orders.Add(new Order(Convert.ToInt32(reader.GetValue(0)),
-                        new Manager(default, reader.GetValue(2).ToString(), reader.GetValue(1).ToString(), default, default, null),
-                        new Customer(),
-                        DateTime.Parse(reader.GetValue(3).ToString()),
-                        reader.GetValue(4).ToString(),
-                        completionDate
+                    string customerFullName = reader.GetValue(1).ToString() + " " + reader.GetValue(2).ToString();
+                    string managerFullName = reader.GetValue(3).ToString() + " " + reader.GetValue(4).ToString();
+                    orders.Add(new ActiveOrder(
+                        Convert.ToInt32(reader.GetValue(0)),
+                        customerFullName,
+                        managerFullName,
+                        reader.GetValue(5).ToString()
                         ));
                 }
             }

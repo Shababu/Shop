@@ -223,16 +223,17 @@ namespace Shop.ViewModels
 
         #endregion
 
-        #region Команды
+        #region Команды секции "Товары"
 
         #region Команда "Открыть меню Товары"
-        public ICommand OpenProductsMenuWindow { get; }
-        public void OnOpenProductsMenuWindowExecute(object p)
+        public ICommand OpenProductsMenuWindowCommand { get; }
+        public void OnOpenProductsMenuWindowCommandExecute(object p)
         {
+            TabControlForOrdersVisibility = Visibility.Collapsed;
             TabControlForProductsVisibility = Visibility.Visible;
         }
 
-        public bool CanOpenProductsMenuWindowExecute(object p)
+        public bool CanOpenProductsMenuWindowCommandExecute(object p)
         {
                 return true;
         }
@@ -367,14 +368,54 @@ namespace Shop.ViewModels
         #endregion
 
         #endregion
+
+        #region Свойства секции "Заказы"
+        private Visibility _TabControlForOrdersVisibility = Visibility.Collapsed;
+
+        public Visibility TabControlForOrdersVisibility
+        {
+            get => _TabControlForOrdersVisibility;
+            set => Set(ref _TabControlForOrdersVisibility, value);
+        }
+        #region Свойство ItemsSource для "Активные заказы"
+        private List<ActiveOrder> _ActiveOrdersItemsSource;
+
+        public List<ActiveOrder> ActiveOrdersItemsSource
+        {
+            get => _ActiveOrdersItemsSource;
+            set => Set(ref _ActiveOrdersItemsSource, value);
+        }
+        #endregion
+        #endregion
+
+        #region Команды секции "Заказы"
+
+        #region Команда "Открыть меню Заказы"
+        public ICommand OpenOrdersMenuWindowCommand { get; }
+        public void OnOpenOrdersMenuWindowCommandExecute(object p)
+        {
+            ShopAccessLibrary library = new ShopAccessLibrary();
+            ActiveOrdersItemsSource = library.GetActiveOrders();
+            TabControlForProductsVisibility = Visibility.Collapsed;
+            TabControlForOrdersVisibility = Visibility.Visible;
+        }
+
+        public bool CanOpenOrdersMenuWindowCommandExecute(object p)
+        {
+            return true;
+        }
+        #endregion
+
+        #endregion
         public MainWindowViewModel()
         {
-            OpenProductsMenuWindow = new LambdaCommand(OnOpenProductsMenuWindowExecute, CanOpenProductsMenuWindowExecute);
+            OpenProductsMenuWindowCommand = new LambdaCommand(OnOpenProductsMenuWindowCommandExecute, CanOpenProductsMenuWindowCommandExecute);
             FindProductCommand = new LambdaCommand(OnFindProductCommandExecute, CanFindProductCommandExecute);
             ClearFindProductFormCommand = new LambdaCommand(OnClearFindProductFormCommandExecute, CanClearFindProductFormCommandExecute);
             FindProductByIdCommand = new LambdaCommand(OnFindProductByIdCommandExecute, CanFindProductByIdCommandExecute);
             AddProductCommand = new LambdaCommand(OnAddProductCommandExecute, CanAddProductCommandExecute);
             ShowAllProductsCommand = new LambdaCommand(OnShowAllProductsCommandExecute, CanShowAllProductsCommandExecute);
+            OpenOrdersMenuWindowCommand = new LambdaCommand(OnOpenOrdersMenuWindowCommandExecute, CanOpenOrdersMenuWindowCommandExecute);
         }
     }
 }
