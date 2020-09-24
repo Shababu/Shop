@@ -361,12 +361,14 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <DataGrid  />
+                            <DataGrid Grid.ColumnSpan="2" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" 
+                                      Visibility="{Binding DataGridForFindOrderByIdFormVisibility}" 
+                                      ItemsSource="{Binding FoundOrderItemsSource}"/>
 
                             <Label Grid.Row="1" Grid.Column="0" Content="Номер заказа:" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Price}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ActiveOrderId}"/>
 
-                            <Button Grid.Row="2" Grid.Column="0" Content="Поиск" Background="#FF003581" Foreground="White" Height="30" Margin="0,2,0,0" Width="100" HorizontalAlignment="Left" Command="{Binding ShowAllProductsCommand}"/>
+                            <Button Grid.Row="2" Grid.Column="0" Content="Поиск" Background="#FF003581" Foreground="White" Height="30" Margin="0,2,0,0" Width="100" HorizontalAlignment="Left" Command="{Binding FindOrderByIdCommand}"/>
 
                         </Grid>
                         

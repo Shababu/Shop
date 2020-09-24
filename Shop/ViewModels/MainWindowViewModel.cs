@@ -370,6 +370,8 @@ namespace Shop.ViewModels
         #endregion
 
         #region Свойства секции "Заказы"
+
+        #region Свойство видимости для TabControl
         private Visibility _TabControlForOrdersVisibility = Visibility.Collapsed;
 
         public Visibility TabControlForOrdersVisibility
@@ -377,6 +379,8 @@ namespace Shop.ViewModels
             get => _TabControlForOrdersVisibility;
             set => Set(ref _TabControlForOrdersVisibility, value);
         }
+        #endregion
+
         #region Свойство ItemsSource для "Активные заказы"
         private List<ActiveOrder> _ActiveOrdersItemsSource;
 
@@ -386,6 +390,40 @@ namespace Shop.ViewModels
             set => Set(ref _ActiveOrdersItemsSource, value);
         }
         #endregion
+
+        #region Заказы->Поиск заказа->OrderId
+
+        private string _ActiveOrderId;
+        public string ActiveOrderId
+        {
+            get => _ActiveOrderId;
+            set => Set(ref _ActiveOrderId, value);
+        }
+
+        #endregion
+
+        #region Свойство видимости DataGrid для "Поиск заказа"
+
+        private Visibility _DataGridForFindOrderByIdFormVisibility = Visibility.Collapsed;
+
+        public Visibility DataGridForFindOrderByIdFormVisibility
+        {
+            get => _DataGridForFindOrderByIdFormVisibility;
+            set => Set(ref _DataGridForFindOrderByIdFormVisibility, value);
+        }
+
+        #endregion
+
+        #region Свойство ItemsSource для "Поиск заказа"
+        private List<ActiveOrder> _FoundOrderItemsSource;
+
+        public List<ActiveOrder> FoundOrderItemsSource
+        {
+            get => _FoundOrderItemsSource;
+            set => Set(ref _FoundOrderItemsSource, value);
+        }
+        #endregion
+
         #endregion
 
         #region Команды секции "Заказы"
@@ -406,6 +444,36 @@ namespace Shop.ViewModels
         }
         #endregion
 
+        #region Команда "Заказы---Поиск---Поиск"
+        public ICommand FindOrderByIdCommand { get; }
+
+        public void OnFindOrderByIdCommandExecute(object p)
+        {
+            int orderId;
+            ShopAccessLibrary library = new ShopAccessLibrary();
+            if (int.TryParse(ActiveOrderId, out orderId))
+            {
+                FoundOrderItemsSource = library.GetOrderById(orderId);
+                if(FoundOrderItemsSource.Count == 0)
+                {
+                    DataGridForFindOrderByIdFormVisibility = Visibility.Collapsed;
+                    MessageBox.Show("Заказа с данным идентификатором нет в Базе данных", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+                DataGridForFindOrderByIdFormVisibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("Некорректный ввод. Введите число");
+            }
+        }
+
+        public bool CanFindOrderByIdCommandExecute(object p)
+        {
+            return true;
+        }
+        #endregion
+
         #endregion
         public MainWindowViewModel()
         {
@@ -416,6 +484,7 @@ namespace Shop.ViewModels
             AddProductCommand = new LambdaCommand(OnAddProductCommandExecute, CanAddProductCommandExecute);
             ShowAllProductsCommand = new LambdaCommand(OnShowAllProductsCommandExecute, CanShowAllProductsCommandExecute);
             OpenOrdersMenuWindowCommand = new LambdaCommand(OnOpenOrdersMenuWindowCommandExecute, CanOpenOrdersMenuWindowCommandExecute);
+            FindOrderByIdCommand = new LambdaCommand(OnFindOrderByIdCommandExecute, CanFindOrderByIdCommandExecute);
         }
     }
 }

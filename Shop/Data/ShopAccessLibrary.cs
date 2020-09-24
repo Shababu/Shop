@@ -267,28 +267,35 @@ namespace Shop
 
             return orders;
         }
-        internal List<ActiveOrder> GetActiveOrderById(int id)
+        internal List<ActiveOrder> GetOrderById(int id)
         {
             List<ActiveOrder> order = new List<ActiveOrder>();
 
-            using(SqlConnection connection = new SqlConnection())
+            using(SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand($"Select Orders.OrderID, Managers.ManagerLName, Managers.ManagerFName, Customers.CustomerLName, Customers.CustomerFName, Orders.OrderDate from Orders join Managers on Orders.ManagerID = Managers.ManagerID join Customers on Orders.CustomerID = Customers.CustomerID where Orders.OrderID = {id}", connection);
                 SqlDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
+                try
                 {
-                    string customerFullName = reader.GetValue(1).ToString() + " " + reader.GetValue(2).ToString();
-                    string managerFullName = reader.GetValue(3).ToString() + " " + reader.GetValue(4).ToString();
-                    order.Add(new ActiveOrder(
-                        Convert.ToInt32(reader.GetValue(0)),
-                        customerFullName,
-                        managerFullName,
-                        reader.GetValue(5).ToString()
-                        ));
+                    while (reader.Read())
+                    {
+                        string customerFullName = reader.GetValue(1).ToString() + " " + reader.GetValue(2).ToString();
+                        string managerFullName = reader.GetValue(3).ToString() + " " + reader.GetValue(4).ToString();
+                        order.Add(new ActiveOrder(
+                            Convert.ToInt32(reader.GetValue(0)),
+                            customerFullName,
+                            managerFullName,
+                            reader.GetValue(5).ToString()
+                            ));
+                    }
                 }
-
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
+                }
                 return order;
             }
         }
