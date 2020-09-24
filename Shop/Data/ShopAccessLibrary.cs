@@ -37,33 +37,94 @@ namespace Shop
             }
             return products;
         }
-
-        internal List<ActiveOrder> GetActiveOrders()
+        internal List<Product> SearchProductByCharacteristics(string name, string brand, string type, string color, string size, string price, string amount)
         {
-            List<ActiveOrder> orders = new List<ActiveOrder>();
+            List<Product> products = new List<Product>();
+
+            string nameForQuery = string.Empty;
+            string brandForQuery = string.Empty;
+            string typeForQuery = string.Empty;
+            string colorForQuery = string.Empty;
+            string sizeForQuery = string.Empty;
+            string priceForQuery = string.Empty;
+            string amountForQuery = string.Empty;
+
+            List<string> chars = new List<string>();
+
+            if (name != null)
+            {
+                nameForQuery = $"Products.ProductName = '{name}' or Products.ProductName like '{name}%' or Products.ProductName like '%{name}%' or Products.ProductName like '%{name}'";
+                chars.Add(nameForQuery);
+            }
+            if (brand != null)
+            {
+                brandForQuery = $"Brands.BrandName = '{brand}'";
+                chars.Add(brandForQuery);
+            }
+            if (type != null)
+            {
+                typeForQuery = $"Type = '{type}'";
+                chars.Add(typeForQuery);
+            }
+            if (color != null)
+            {
+                colorForQuery = $"Colors.Color = '{color}'";
+                chars.Add(colorForQuery);
+            }
+            if (size != null)
+            {
+                sizeForQuery = $"Sizes.Size = '{size}'";
+                chars.Add(sizeForQuery);
+            }
+            if (price != null)
+            {
+                priceForQuery = $"Products.Price = {price}";
+                chars.Add(priceForQuery);
+            }
+            if (amount != null)
+            {
+                amountForQuery = $"Products.Amount = {amount}";
+                chars.Add(amountForQuery);
+            }
+
+            string searchQuery = $"SELECT ProductID, ProductName, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount FROM Products join Colors_Sizes on Colors_Sizes.Color_SizeID = Products.Color_SizeID join Colors on Colors_Sizes.ColorID = Colors.ColorID join Sizes on Colors_Sizes.SizeID = Sizes.SizeID join Brands on Products.BrandID = Brands.BrandID where ";
+
+            int counter = 0;
+
+            foreach (string characteristic in chars)
+            {
+                if (counter > 0)
+                {
+                    searchQuery += $" AND {characteristic}";
+                }
+                else
+                {
+                    searchQuery += $"{characteristic}";
+                    counter++;
+                }
+            }
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("select distinct Orders.OrderID, Managers.ManagerLName, Managers.ManagerFName, Customers.CustomerLName, Customers.CustomerFName, Orders.OrderDate from Orders join Managers on Orders.ManagerID = Managers.ManagerID join Customers on Orders.CustomerID = Customers.CustomerID where Orders.Status = 'Не выполнен'", connection);
+                SqlCommand command = new SqlCommand(searchQuery, connection);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    string customerFullName = reader.GetValue(1).ToString() + " " + reader.GetValue(2).ToString();
-                    string managerFullName = reader.GetValue(3).ToString() + " " + reader.GetValue(4).ToString();
-                    orders.Add(new ActiveOrder(
+                    products.Add(new Product(
                         Convert.ToInt32(reader.GetValue(0)),
-                        customerFullName,
-                        managerFullName,
-                        reader.GetValue(5).ToString()
-                        ));
+                        reader.GetValue(1).ToString(),
+                        reader.GetValue(2).ToString(),
+                        reader.GetValue(3).ToString(),
+                        reader.GetValue(4).ToString(),
+                        reader.GetValue(5).ToString(),
+                        (float)Convert.ToDouble(reader.GetValue(6)),
+                        Convert.ToInt32(reader.GetValue(7))));
                 }
             }
-
-            return orders;
+            return products;
         }
-
         internal Product GetProductById(int productId)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -83,7 +144,6 @@ namespace Shop
                     Convert.ToInt32(reader.GetValue(7)));
             }
         }
-
         internal void AddProduct(string name, string brand, string type, string color, string size, string price, string amount)
         {            
             int brandId = Convert.ToInt32(GetBrandId(brand));
@@ -180,94 +240,57 @@ namespace Shop
             }
 
             return color_sizeId;
-        }                                    
-        internal List<Product> SearchProductByCharacteristics(string name, string brand, string type, string color, string size, string price, string amount)
+        }
+
+        internal List<ActiveOrder> GetActiveOrders()
         {
-            List<Product> products = new List<Product>();
+            List<ActiveOrder> orders = new List<ActiveOrder>();
 
-            string nameForQuery = string.Empty;
-            string brandForQuery = string.Empty;
-            string typeForQuery = string.Empty;
-            string colorForQuery = string.Empty;
-            string sizeForQuery = string.Empty;
-            string priceForQuery = string.Empty;
-            string amountForQuery = string.Empty;
-
-            List<string> chars = new List<string>();
-
-            if (name != null)
-            {
-                nameForQuery = $"Products.ProductName = '{name}' or Products.ProductName like '{name}%' or Products.ProductName like '%{name}%' or Products.ProductName like '%{name}'";
-                chars.Add(nameForQuery);
-            }
-            if (brand != null)
-            {
-                brandForQuery = $"Brands.BrandName = '{brand}'";
-                chars.Add(brandForQuery);
-            }
-            if (type != null)
-            {
-                typeForQuery = $"Type = '{type}'";
-                chars.Add(typeForQuery);
-            }
-            if (color != null)
-            {
-                colorForQuery = $"Colors.Color = '{color}'";
-                chars.Add(colorForQuery);
-            }
-            if (size != null)
-            {
-                sizeForQuery = $"Sizes.Size = '{size}'";
-                chars.Add(sizeForQuery);
-            }
-            if (price != null)
-            {
-                priceForQuery = $"Products.Price = {price}";
-                chars.Add(priceForQuery);
-            }
-            if (amount != null)
-            {
-                amountForQuery = $"Products.Amount = {amount}";
-                chars.Add(amountForQuery);
-            }
-
-            string searchQuery = $"SELECT ProductID, ProductName, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount FROM Products join Colors_Sizes on Colors_Sizes.Color_SizeID = Products.Color_SizeID join Colors on Colors_Sizes.ColorID = Colors.ColorID join Sizes on Colors_Sizes.SizeID = Sizes.SizeID join Brands on Products.BrandID = Brands.BrandID where ";
-
-            int counter = 0;
-
-            foreach(string characteristic in chars)
-            {
-                if(counter > 0)
-                {
-                    searchQuery += $" AND {characteristic}";
-                }
-                else
-                {
-                    searchQuery += $"{characteristic}";
-                    counter++;
-                }
-            }
-
-            using(SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(searchQuery, connection);
+                SqlCommand command = new SqlCommand("select distinct Orders.OrderID, Managers.ManagerLName, Managers.ManagerFName, Customers.CustomerLName, Customers.CustomerFName, Orders.OrderDate from Orders join Managers on Orders.ManagerID = Managers.ManagerID join Customers on Orders.CustomerID = Customers.CustomerID where Orders.Status = 'Не выполнен'", connection);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    products.Add(new Product(
+                    string customerFullName = reader.GetValue(1).ToString() + " " + reader.GetValue(2).ToString();
+                    string managerFullName = reader.GetValue(3).ToString() + " " + reader.GetValue(4).ToString();
+                    orders.Add(new ActiveOrder(
                         Convert.ToInt32(reader.GetValue(0)),
-                        reader.GetValue(1).ToString(),
-                        reader.GetValue(2).ToString(),
-                        reader.GetValue(3).ToString(),
-                        reader.GetValue(4).ToString(),
-                        reader.GetValue(5).ToString(),
-                        (float)Convert.ToDouble(reader.GetValue(6)),
-                        Convert.ToInt32(reader.GetValue(7))));
+                        customerFullName,
+                        managerFullName,
+                        reader.GetValue(5).ToString()
+                        ));
                 }
             }
-            return products;
+
+            return orders;
+        }
+        internal List<ActiveOrder> GetActiveOrderById(int id)
+        {
+            List<ActiveOrder> order = new List<ActiveOrder>();
+
+            using(SqlConnection connection = new SqlConnection())
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand($"Select Orders.OrderID, Managers.ManagerLName, Managers.ManagerFName, Customers.CustomerLName, Customers.CustomerFName, Orders.OrderDate from Orders join Managers on Orders.ManagerID = Managers.ManagerID join Customers on Orders.CustomerID = Customers.CustomerID where Orders.OrderID = {id}", connection);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string customerFullName = reader.GetValue(1).ToString() + " " + reader.GetValue(2).ToString();
+                    string managerFullName = reader.GetValue(3).ToString() + " " + reader.GetValue(4).ToString();
+                    order.Add(new ActiveOrder(
+                        Convert.ToInt32(reader.GetValue(0)),
+                        customerFullName,
+                        managerFullName,
+                        reader.GetValue(5).ToString()
+                        ));
+                }
+
+                return order;
+            }
         }
     }
 }

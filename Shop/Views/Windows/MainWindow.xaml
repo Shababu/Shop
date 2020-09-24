@@ -348,7 +348,29 @@
                        
                         </StackPanel>
                     </TabItem>
-                    <TabItem Header="Поиск заказа"/>
+                    <TabItem Header="Поиск заказа">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <DataGrid  />
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Номер заказа:" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Price}"/>
+
+                            <Button Grid.Row="2" Grid.Column="0" Content="Поиск" Background="#FF003581" Foreground="White" Height="30" Margin="0,2,0,0" Width="100" HorizontalAlignment="Left" Command="{Binding ShowAllProductsCommand}"/>
+
+                        </Grid>
+                        
+                    </TabItem>
                     <TabItem Header="Оформить заказ"/>
                 </TabControl>
                 <Grid x:Name="gridAddEmployeeForm" Visibility="Collapsed">
