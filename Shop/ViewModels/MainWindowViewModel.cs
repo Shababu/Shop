@@ -464,7 +464,7 @@ namespace Shop.ViewModels
             }
             else
             {
-                MessageBox.Show("Некорректный ввод. Введите число");
+                MessageBox.Show("Некорректный ввод. Введите число", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

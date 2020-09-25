@@ -87,7 +87,8 @@
                                    FontWeight="Bold" Foreground="White" Margin="12 0 0 0"/>
                     </StackPanel>
                     
-                </Button>                
+                </Button>    
+                
             </StackPanel>
 
             <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
@@ -373,7 +374,131 @@
                         </Grid>
                         
                     </TabItem>
-                    <TabItem Header="Оформить заказ"/>
+                    <TabItem Header="Оформить покупку">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Grid.Column="0">
+                                <TextBlock Text="Корзина" FontWeight="Bold"/>
+                                <DataGrid/>
+                                <TextBlock Text="Итого к оплате: "/>
+                                <Button Content="Оформить покупку"/>
+                            </StackPanel>
+
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Поиск товара" FontWeight="Bold"/>
+
+                                <Label Grid.Row="1" Grid.Column="0" Content="Наименование:" HorizontalAlignment="Right"/>
+                                <TextBox  Grid.Row="1" Grid.Column="1" 
+                                         Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                         Text="{Binding ProductFind_Name, Mode=TwoWay}"/>
+
+                                <Label Grid.Row="2" Grid.Column="0" Content="Бренд:" HorizontalAlignment="Right"/>
+                                <ComboBox Grid.Row="2" Grid.Column="1" 
+                                          Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                          Text="{Binding ProductFind_Brand, Mode=TwoWay}">
+
+                                    <ComboBoxItem Content="Adidas"/>
+                                    <ComboBoxItem Content="Nike"/>
+                                    <ComboBoxItem Content="Reebok"/>
+                                    <ComboBoxItem Content="Jordan"/>
+                                </ComboBox>
+
+                                <Label Grid.Row="3" Grid.Column="0" Content="Тип:" HorizontalAlignment="Right"/>
+                                <ComboBox Grid.Row="3" Grid.Column="1" 
+                                          Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                          Text="{Binding ProductFind_Type, Mode=TwoWay}">
+
+                                    <ComboBoxItem Content="Шапка"/>
+                                    <ComboBoxItem Content="Кепка"/>
+                                    <ComboBoxItem Content="Футболка"/>
+                                    <ComboBoxItem Content="Толстовка"/>
+                                    <ComboBoxItem Content="Куртка"/>
+                                    <ComboBoxItem Content="Спортивный костюм"/>
+                                    <ComboBoxItem Content="Брюки"/>
+                                    <ComboBoxItem Content="Шорты"/>
+                                    <ComboBoxItem Content="Кроссовки"/>
+                                    <ComboBoxItem Content="Носки"/>
+
+                                </ComboBox>
+
+                                <Label Grid.Row="4" Grid.Column="0" Content="Цвет:" HorizontalAlignment="Right"/>
+                                <ComboBox Grid.Row="4" Grid.Column="1" 
+                                          Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                          Text="{Binding ProductFind_Color, Mode=TwoWay}">
+
+                                    <ComboBoxItem Content="Чёрный"/>
+                                    <ComboBoxItem Content="Белый"/>
+                                    <ComboBoxItem Content="Жёлтый"/>
+                                    <ComboBoxItem Content="Зелёный"/>
+                                    <ComboBoxItem Content="Красный"/>
+                                    <ComboBoxItem Content="Синий"/>
+                                    <ComboBoxItem Content="Розовый"/>
+                                    <ComboBoxItem Content="Коричневый"/>
+                                    <ComboBoxItem Content="Фиолетовый"/>
+                                    <ComboBoxItem Content="Оранжевый"/>
+                                    <ComboBoxItem Content="Серый"/>
+
+                                </ComboBox>
+
+                                <Label Grid.Row="5" Grid.Column="0" Content="Размер:" HorizontalAlignment="Right"/>
+                                <ComboBox Grid.Row="5" Grid.Column="1" 
+                                          Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                          Text="{Binding ProductFind_Size, Mode=TwoWay}">
+
+                                    <ComboBoxItem Content="XS"/>
+                                    <ComboBoxItem Content="S"/>
+                                    <ComboBoxItem Content="M"/>
+                                    <ComboBoxItem Content="L"/>
+                                    <ComboBoxItem Content="XL"/>
+                                    <ComboBoxItem Content="XXL"/>
+                                    <ComboBoxItem Content="XXXL"/>
+
+                                </ComboBox>
+
+                                <Label Grid.Row="6" Grid.Column="0" Content="Цена:" HorizontalAlignment="Right"/>
+                                <TextBox Grid.Row="6" Grid.Column="1" 
+                                         Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                         Text="{Binding ProductFind_Price, Mode=TwoWay}"/>
+
+                                <Label Grid.Row="7" Grid.Column="0" Content="Количество:" HorizontalAlignment="Right"/>
+                                <TextBox Grid.Row="7" Grid.Column="1" 
+                                         Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                         Text="{Binding ProductFind_Amount, Mode=TwoWay}"/>
+
+                                <Button Grid.Row="8" Grid.Column="0" Content="Поиск"/>
+
+                                <DataGrid Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0"/>
+
+                                <Button Grid.Row="10" Grid.Column="0" Content="Добавить в корзину"/>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
                 </TabControl>
                 <Grid x:Name="gridAddEmployeeForm" Visibility="Collapsed">
                     <Grid.ColumnDefinitions>
