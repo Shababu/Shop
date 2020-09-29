@@ -233,6 +233,7 @@ namespace Shop.ViewModels
             TabControlForProductsVisibility = Visibility.Visible;
             FindProductsResult = null;
             HideAllDataGrids();
+            ClearAllTextBoxes();
         }
 
         public bool CanOpenProductsMenuWindowCommandExecute(object p)
@@ -441,6 +442,7 @@ namespace Shop.ViewModels
             TabControlForOrdersVisibility = Visibility.Visible;
             FindProductsResult = null;
             HideAllDataGrids();
+            ClearAllTextBoxes();
         }
 
         public bool CanOpenOrdersMenuWindowCommandExecute(object p)
@@ -496,6 +498,13 @@ namespace Shop.ViewModels
         {
             DataGridForAllProductsVisibility = DataGridForFindProductFormVisibility = 
                 DataGridForFindProductByIdFormVisibility = DataGridForFindOrderByIdFormVisibility = Visibility.Collapsed;
+        }
+
+        public void ClearAllTextBoxes()
+        {
+            ProductAdd_Name = ProductFind_Name = ProductAdd_Brand = ProductFind_Brand = ProductAdd_Type = 
+                ProductFind_Type = ProductAdd_Color = ProductFind_Color = ProductAdd_Size = ProductFind_Size 
+                = ProductAdd_Price = ProductFind_Price = ProductAdd_Amount = ProductFind_Amount = null;
         }
     }
 }
