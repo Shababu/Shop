@@ -8,7 +8,7 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Shop.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="Gray">
+        Title="MainWindow" Height="550" Width="1070" Background="Gray">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -496,9 +496,10 @@
                                          Text="{Binding ProductFind_Amount, Mode=TwoWay}"/>
 
                                 <Button Grid.Row="8" Grid.Column="0" Content="Поиск" Background="#FF003581" Foreground="White" 
-                                Margin="0,5,0,0" Height="30" Width="120" HorizontalAlignment="Left"/>
+                                Margin="0,5,0,0" Height="30" Width="120" HorizontalAlignment="Left" Command="{Binding FindProductCommand}"/>
 
-                                <DataGrid Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0"/>
+                                <DataGrid Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" 
+                                          AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" Margin="0,5,0,0" Visibility="{Binding DataGridForFindProductFormVisibility}" ItemsSource="{Binding FindProductsResult}"/>
 
                                 <Button Grid.Row="10" Grid.Column="0" Content="Добавить в корзину" Background="#FF003581" Foreground="White" 
                                 Margin="0,5,0,0" Height="30" Width="120" HorizontalAlignment="Left"/>

@@ -231,6 +231,8 @@ namespace Shop.ViewModels
         {
             TabControlForOrdersVisibility = Visibility.Collapsed;
             TabControlForProductsVisibility = Visibility.Visible;
+            FindProductsResult = null;
+            HideAllDataGrids();
         }
 
         public bool CanOpenProductsMenuWindowCommandExecute(object p)
@@ -255,6 +257,7 @@ namespace Shop.ViewModels
                 FindProductsResult = library.SearchProductByCharacteristics(ProductFind_Name, ProductFind_Brand,
                     ProductFind_Type, ProductFind_Color, ProductFind_Size, ProductFind_Price, ProductFind_Amount);
                 DataGridForFindProductFormVisibility = Visibility.Visible;
+
             }
         }
 
@@ -436,6 +439,8 @@ namespace Shop.ViewModels
             ActiveOrdersItemsSource = library.GetActiveOrders();
             TabControlForProductsVisibility = Visibility.Collapsed;
             TabControlForOrdersVisibility = Visibility.Visible;
+            FindProductsResult = null;
+            HideAllDataGrids();
         }
 
         public bool CanOpenOrdersMenuWindowCommandExecute(object p)
@@ -485,6 +490,12 @@ namespace Shop.ViewModels
             ShowAllProductsCommand = new LambdaCommand(OnShowAllProductsCommandExecute, CanShowAllProductsCommandExecute);
             OpenOrdersMenuWindowCommand = new LambdaCommand(OnOpenOrdersMenuWindowCommandExecute, CanOpenOrdersMenuWindowCommandExecute);
             FindOrderByIdCommand = new LambdaCommand(OnFindOrderByIdCommandExecute, CanFindOrderByIdCommandExecute);
+        }
+   
+        public void HideAllDataGrids()
+        {
+            DataGridForAllProductsVisibility = DataGridForFindProductFormVisibility = 
+                DataGridForFindProductByIdFormVisibility = DataGridForFindOrderByIdFormVisibility = Visibility.Collapsed;
         }
     }
 }
