@@ -22,13 +22,22 @@
             <Setter Property="Width" Value="100"/>
             <Setter Property="Height" Value="30"/>
         </Style>
+
+        <Style x:Key="DataGridStyle" TargetType="DataGrid">
+            <Setter Property="Background" Value="#FFA4A4A4"/>
+            <Setter Property="BorderBrush" Value="#FF6C6C6C"/>
+            <Setter Property="RowBackground" Value="#FFB4B4B4"/>
+            <Setter Property="AlternatingRowBackground" Value="#FFA4A4A4"/>
+        </Style>
     </Window.Resources>
     
     <DockPanel LastChildFill="True" >
         <StackPanel DockPanel.Dock="Top" >
             <Menu Background="#FF212121">
                 <MenuItem Header="Файл" Style="{StaticResource MenuItemsWhite}">
-                    <MenuItem Header="Открыть" Style="{StaticResource MenuItemsWhite}" Command="ApplicationCommands.Open" BorderThickness="0"></MenuItem>
+                    <MenuItem Header="Открыть" Style="{StaticResource MenuItemsWhite}" 
+                              Command="ApplicationCommands.Open" BorderThickness="0">
+                    </MenuItem>
                     <MenuItem Header="Сохранить" Style="{StaticResource MenuItemsWhite}" Command="ApplicationCommands.Save"></MenuItem>
                     <MenuItem Header="Сохранить как..." Style="{StaticResource MenuItemsWhite}" Command="ApplicationCommands.SaveAs"></MenuItem>
                     <Separator/>
@@ -75,7 +84,8 @@
                     
                     <StackPanel Orientation="Horizontal">
                         <fa:ImageAwesome Icon="Solid_ClipboardCheck" Height="27" Margin="10,3,0,3" Foreground="White"/>
-                        <TextBlock Text="Заказы" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" Foreground="White" Margin="18 0 0 0"/>
+                        <TextBlock Text="Заказы" VerticalAlignment="Center" FontSize="17" FontWeight="Bold" 
+                                   Foreground="White" Margin="18 0 0 0"/>
                     </StackPanel>
                     
                 </Button>
@@ -120,8 +130,7 @@
                                 </Grid.RowDefinitions>
 
                                 <DataGrid x:Name="dataGridForFindForm" Grid.Row="0" Grid.Column="0" 
-                                          Grid.ColumnSpan="2" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" 
-                                          AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" 
+                                          Grid.ColumnSpan="2" Style="{StaticResource DataGridStyle}" 
                                           Visibility="{Binding DataGridForFindProductFormVisibility}" 
                                           ItemsSource="{Binding FindProductsResult}"/>
                                 
@@ -251,10 +260,13 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
 
-                            <DataGrid x:Name="dataGridForFindByIdForm" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" ItemsSource="{Binding FindProductsByIdResult}" Visibility="{Binding DataGridForFindProductByIdFormVisibility}"/>
+                            <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DataGridStyle}" 
+                                      ItemsSource="{Binding FindProductsByIdResult}" 
+                                      Visibility="{Binding DataGridForFindProductByIdFormVisibility}"/>
 
                             <Label Grid.Row="1" Grid.Column="0" Content="Введите ID:" HorizontalAlignment="Right"/>
-                            <TextBox Name="txtProductId" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductFindById_Id, Mode=TwoWay}"/>
+                            <TextBox Name="txtProductId" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" 
+                                     HorizontalAlignment="Left" Text="{Binding ProductFindById_Id, Mode=TwoWay}"/>
 
                             <Button Grid.Row="2" Grid.Column="0" Content="Поиск" Style="{StaticResource BlueButtonStyle}" 
                                     Command="{Binding FindProductByIdCommand}"/>
@@ -280,10 +292,12 @@
                             </Grid.RowDefinitions>
 
                             <Label Grid.Row="0" Grid.Column="0" Content="Наименование:" HorizontalAlignment="Right"/>
-                            <TextBox Name="txtProductName_Add" Grid.Row="0" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Name}"/>
+                            <TextBox Name="txtProductName_Add" Grid.Row="0" Grid.Column="1" Margin="10,5,0,0" 
+                                     Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Name}"/>
 
                             <Label Grid.Row="1" Grid.Column="0" Content="Бренд:" HorizontalAlignment="Right"/>
-                            <ComboBox Name="comboProductBrand_Add" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Brand}">
+                            <ComboBox Name="comboProductBrand_Add" Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" 
+                                      HorizontalAlignment="Left" Text="{Binding ProductAdd_Brand}">
                                 <ComboBoxItem Content="Adidas"/>
                                 <ComboBoxItem Content="Nike"/>
                                 <ComboBoxItem Content="Reebok"/>
@@ -291,7 +305,8 @@
                             </ComboBox>
 
                             <Label Grid.Row="2" Grid.Column="0" Content="Тип:" HorizontalAlignment="Right"/>
-                            <ComboBox Name="comboProductType_Add" Grid.Row="2" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Type}">
+                            <ComboBox Name="comboProductType_Add" Grid.Row="2" Grid.Column="1" Margin="10,5,0,0" Width="250" 
+                                      HorizontalAlignment="Left" Text="{Binding ProductAdd_Type}">
                                 <ComboBoxItem Content="Шапка"/>
                                 <ComboBoxItem Content="Кепка"/>
                                 <ComboBoxItem Content="Футболка"/>
@@ -305,7 +320,8 @@
                             </ComboBox>
 
                             <Label Grid.Row="3" Grid.Column="0" Content="Цвет:" HorizontalAlignment="Right"/>
-                            <ComboBox Name="comboProductColor_Add" Grid.Row="3" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Color}">
+                            <ComboBox Name="comboProductColor_Add" Grid.Row="3" Grid.Column="1" Margin="10,5,0,0" Width="250" 
+                                      HorizontalAlignment="Left" Text="{Binding ProductAdd_Color}">
                                 <ComboBoxItem Content="Чёрный"/>
                                 <ComboBoxItem Content="Белый"/>
                                 <ComboBoxItem Content="Жёлтый"/>
@@ -320,7 +336,8 @@
                             </ComboBox>
 
                             <Label Grid.Row="4" Grid.Column="0" Content="Размер:" HorizontalAlignment="Right"/>
-                            <ComboBox Name="comboProductSize_Add" Grid.Row="4" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Size}">
+                            <ComboBox Name="comboProductSize_Add" Grid.Row="4" Grid.Column="1" Margin="10,5,0,0" 
+                                      Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Size}">
                                 <ComboBoxItem Content="XS"/>
                                 <ComboBoxItem Content="S"/>
                                 <ComboBoxItem Content="M"/>
@@ -331,10 +348,12 @@
                             </ComboBox>
 
                             <Label Grid.Row="5" Grid.Column="0" Content="Цена:" HorizontalAlignment="Right"/>
-                            <TextBox Name="txtProductPrice_Add" Grid.Row="5" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Price}"/>
+                            <TextBox Name="txtProductPrice_Add" Grid.Row="5" Grid.Column="1" Margin="10,5,0,0" Width="250" 
+                                     HorizontalAlignment="Left" Text="{Binding ProductAdd_Price}"/>
 
                             <Label Grid.Row="6" Grid.Column="0" Content="Количество:" HorizontalAlignment="Right"/>
-                            <TextBox Name="txtProductAmount_Add" Grid.Row="6" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ProductAdd_Amount}"/>
+                            <TextBox Name="txtProductAmount_Add" Grid.Row="6" Grid.Column="1" Margin="10,5,0,0" Width="250" 
+                                     HorizontalAlignment="Left" Text="{Binding ProductAdd_Amount}"/>
 
                             <Button Grid.Row="7" Grid.Column="0" Content="Добавить"  Style="{StaticResource BlueButtonStyle}" 
                                     Command="{Binding AddProductCommand}"/>
@@ -342,7 +361,8 @@
                     </TabItem>
                     <TabItem Header="Все товары">
                         <StackPanel>
-                            <DataGrid x:Name="dataGridForAllProductsForm" Grid.Row="8" Grid.Column="0" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" ItemsSource="{Binding AllProducts}" Visibility="{Binding DataGridForAllProductsVisibility}"/>
+                            <DataGrid Grid.Row="8" Grid.Column="0" Style="{StaticResource DataGridStyle}" 
+                                      ItemsSource="{Binding AllProducts}" Visibility="{Binding DataGridForAllProductsVisibility}"/>
                             <Button Content="Все товары" Style="{StaticResource BlueButtonStyle}" 
                                     Command="{Binding ShowAllProductsCommand}"/>
                         </StackPanel>
@@ -353,8 +373,8 @@
                     <TabItem Header="Активные заказы">
                         
                         <StackPanel>
-                            
-                            <DataGrid AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" 
+
+                            <DataGrid Style="{StaticResource DataGridStyle}" 
                                       ItemsSource="{Binding ActiveOrdersItemsSource}"/>
 
                             <Button Content="Подробнее"  Style="{StaticResource BlueButtonStyle}"/>
@@ -374,14 +394,16 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <DataGrid Grid.ColumnSpan="2" AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" 
+                            <DataGrid Grid.ColumnSpan="2" Style="{StaticResource DataGridStyle}"  
                                       Visibility="{Binding DataGridForFindOrderByIdFormVisibility}" 
                                       ItemsSource="{Binding FoundOrderItemsSource}"/>
 
                             <Label Grid.Row="1" Grid.Column="0" Content="Номер заказа:" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" Text="{Binding ActiveOrderId}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                     Text="{Binding ActiveOrderId}"/>
 
-                            <Button Grid.Row="2" Grid.Column="0" Content="Поиск" Style="{StaticResource BlueButtonStyle}" Command="{Binding FindOrderByIdCommand}"/>
+                            <Button Grid.Row="2" Grid.Column="0" Content="Поиск" Style="{StaticResource BlueButtonStyle}" 
+                                    Command="{Binding FindOrderByIdCommand}"/>
 
                         </Grid>
                         
@@ -399,12 +421,13 @@
 
                             <StackPanel Grid.Row="0" Grid.Column="0">
                                 <TextBlock Text="Корзина" FontWeight="Bold"/>
-                                <DataGrid/>
+                                <DataGrid Style="{StaticResource DataGridStyle}" />
                                 <TextBlock Text="Итого к оплате: "/>
                                 <Button Content="Оформить покупку"  Style="{StaticResource BlueButtonStyle}" Width="120"/>
                             </StackPanel>
 
-                            <GridSplitter Grid.Column="1" Grid.Row="0" Width="3" Margin="10,0,10,0" Background="Gray" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                            <GridSplitter Grid.Column="1" Grid.Row="0" Width="3" Margin="10,0,10,0" Background="Gray" 
+                                          VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
 
                             <Grid Grid.Column="2">
                                 <Grid.ColumnDefinitions>
@@ -509,8 +532,9 @@
                                 <Button Grid.Row="8" Grid.Column="0" Content="Поиск" 
                                         Style="{StaticResource BlueButtonStyle}" Width="120" Command="{Binding FindProductCommand}"/>
 
-                                <DataGrid Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" Background="#FFA4A4A4" BorderBrush="#FF6C6C6C" 
-                                          AlternatingRowBackground="#FFA4A4A4" RowBackground="#FFB4B4B4" Margin="0,5,0,0" Visibility="{Binding DataGridForFindProductFormVisibility}" ItemsSource="{Binding FindProductsResult}"/>
+                                <DataGrid Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" Style="{StaticResource DataGridStyle}" 
+                                          Margin="0,5,0,0" Visibility="{Binding DataGridForFindProductFormVisibility}" 
+                                          ItemsSource="{Binding FindProductsResult}"/>
 
                                 <Button Grid.Row="10" Grid.Column="0" Content="Добавить в корзину"
                                         Style="{StaticResource BlueButtonStyle}" Width="120"/>
@@ -557,7 +581,8 @@
                     <Label Grid.Row="6" Grid.Column="0" Content="Должность:" HorizontalAlignment="Right"/>
                     <TextBox Grid.Row="6" Grid.Column="1" Margin="10,5,0,0" Width="140" HorizontalAlignment="Left" />
 
-                    <Button Grid.Row="7" Grid.Column="0" Content="Добавить" Background="#FF003581" Foreground="White" Margin="0,10,0,0" Height="30"/>
+                    <Button Grid.Row="7" Grid.Column="0" Content="Добавить" Background="#FF003581" 
+                            Foreground="White" Margin="0,10,0,0" Height="30"/>
                 </Grid>
             </StackPanel>
         </Grid>
