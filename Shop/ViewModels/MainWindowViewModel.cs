@@ -6,7 +6,9 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using System.Xml;
 
@@ -428,6 +430,37 @@ namespace Shop.ViewModels
         }
         #endregion
 
+        #region Свойство SelectedItem для выбранного товара
+        private Product _SelectedProductForCart;
+        public Product SelectedProductForCart 
+        { 
+            get => _SelectedProductForCart; 
+            set => Set(ref _SelectedProductForCart, value); 
+        }
+        #endregion
+
+        #region Свойство ItemsSource для "Корзина"
+        private List<Product> _CartItemsSource;
+
+        public List<Product> CartItemsSource
+        {
+            get => _CartItemsSource;
+            set => Set(ref _CartItemsSource, value);
+        }
+        #endregion
+
+        #region Свойство видимости DataGrid для "Корзина"
+
+        private Visibility _DataGridForCartVisibility = Visibility.Collapsed;
+
+        public Visibility DataGridForCartVisibility
+        {
+            get => _DataGridForCartVisibility;
+            set => Set(ref _DataGridForCartVisibility, value);
+        }
+
+        #endregion
+
         #endregion
 
         #region Команды секции "Заказы"
@@ -481,6 +514,29 @@ namespace Shop.ViewModels
         }
         #endregion
 
+        #region Команда "Заказы---Поиск---Добавить в корзину"
+        public ICommand AddProductToCartCommand { get; }
+
+        public void OnAddProductToCartCommandExecute(object p)
+        {
+            if(CartItemsSource == null)
+            {
+                CartItemsSource = new List<Product>();
+            }
+
+            CartItemsSource.Add(SelectedProductForCart);
+            if (DataGridForCartVisibility != Visibility.Visible)
+            {
+                DataGridForCartVisibility = Visibility.Visible;
+            }
+        }
+
+        public bool CanAddProductToCartCommandExecute(object p)
+        {
+            return true;
+        }
+        #endregion
+
         #endregion
         public MainWindowViewModel()
         {
@@ -492,6 +548,7 @@ namespace Shop.ViewModels
             ShowAllProductsCommand = new LambdaCommand(OnShowAllProductsCommandExecute, CanShowAllProductsCommandExecute);
             OpenOrdersMenuWindowCommand = new LambdaCommand(OnOpenOrdersMenuWindowCommandExecute, CanOpenOrdersMenuWindowCommandExecute);
             FindOrderByIdCommand = new LambdaCommand(OnFindOrderByIdCommandExecute, CanFindOrderByIdCommandExecute);
+            AddProductToCartCommand = new LambdaCommand(OnAddProductToCartCommandExecute, CanAddProductToCartCommandExecute);            
         }
    
         public void HideAllDataGrids()

@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Sql;
 using System.Data.SqlClient;
+using System.Web.UI.WebControls;
+using Shop.Models;
 
 namespace Shop
 {

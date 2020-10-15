@@ -129,7 +129,7 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
 
-                                <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DataGridStyle}" 
+                                <DataGrid x:Name="mouse" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DataGridStyle}" 
                                           Visibility="{Binding DataGridForFindProductFormVisibility}" 
                                           ItemsSource="{Binding FindProductsResult}">
                                     <DataGrid.Columns>
@@ -261,7 +261,7 @@
                     <TabItem Header="Поиск по ID">
                         <Grid x:Name="gridFindProductByIdForm">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition MinWidth="50" Width="100"/>
+                                <ColumnDefinition MinWidth="50" Width="110"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -297,7 +297,7 @@
                     <TabItem Header="Добавить">
                         <Grid x:Name="gridAddProductForm">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition MinWidth="50" Width="100"/>
+                                <ColumnDefinition MinWidth="50" Width="110"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -467,7 +467,18 @@
 
                             <StackPanel Grid.Row="0" Grid.Column="0">
                                 <TextBlock Text="Корзина" FontWeight="Bold"/>
-                                <DataGrid Style="{StaticResource DataGridStyle}" />
+                                <DataGrid Name="dataGridForCart" Style="{StaticResource DataGridStyle}" Visibility="{Binding DataGridForCartVisibility}" ItemsSource="{Binding CartItemsSource}" AutoGenerateColumns="False" AlternatingRowBackground="#FF61FFAD" RowBackground="#FF61FFAD" >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Id" Binding="{Binding ProductId}"/>
+                                        <DataGridTextColumn Header="Наименование" Binding="{Binding ProductName}"/>
+                                        <DataGridTextColumn Header="Бренд" Binding="{Binding ProductBrand}"/>
+                                        <DataGridTextColumn Header="Тип" Binding="{Binding ProductType}"/>
+                                        <DataGridTextColumn Header="Цвет" Binding="{Binding ProductColor}"/>
+                                        <DataGridTextColumn Header="Размер" Binding="{Binding ProductSize}"/>
+                                        <DataGridTextColumn Header="Цена" Binding="{Binding ProductPrice}"/>
+                                        <DataGridTextColumn Header="Количество" Binding="{Binding ProductAmount}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
                                 <TextBlock Text="Итого к оплате: "/>
                                 <Button Content="Оформить покупку"  Style="{StaticResource BlueButtonStyle}" Width="120"/>
                             </StackPanel>
@@ -578,9 +589,9 @@
                                 <Button Grid.Row="8" Grid.Column="0" Content="Поиск" 
                                         Style="{StaticResource BlueButtonStyle}" Width="120" Command="{Binding FindProductCommand}"/>
 
-                                <DataGrid Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" Style="{StaticResource DataGridStyle}" 
+                                <DataGrid Name="dataGridSearchProduct" Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" Style="{StaticResource DataGridStyle}" 
                                           Margin="0,5,0,0" Visibility="{Binding DataGridForFindProductFormVisibility}" 
-                                          ItemsSource="{Binding FindProductsResult}">
+                                          ItemsSource="{Binding FindProductsResult}" SelectedItem="{Binding Path=SelectedProductForCart, Mode=TwoWay}">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Id" Binding="{Binding ProductId}"/>
                                         <DataGridTextColumn Header="Наименование" Binding="{Binding ProductName}"/>
@@ -594,7 +605,7 @@
                                 </DataGrid>
 
                                 <Button Grid.Row="10" Grid.Column="0" Content="Добавить в корзину"
-                                        Style="{StaticResource BlueButtonStyle}" Width="120"/>
+                                        Style="{StaticResource BlueButtonStyle}" Width="120" Command="{Binding AddProductToCartCommand}" />
                             </Grid>
                         </Grid>
                     </TabItem>
