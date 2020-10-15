@@ -523,7 +523,7 @@ namespace Shop.ViewModels
             {
                 CartItemsSource = new List<Product>();
             }
-
+            SelectedProductForCart.ProductAmount = 1;
             CartItemsSource.Add(SelectedProductForCart);
             if (DataGridForCartVisibility != Visibility.Visible)
             {
