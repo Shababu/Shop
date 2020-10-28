@@ -37,6 +37,15 @@ namespace Shop.ViewModels
         }
         #endregion
 
+        #region Товары->Поиск->Пол
+        private string _ProductFind_Gender;
+        public string ProductFind_Gender
+        {
+            get => _ProductFind_Gender;
+            set => Set(ref _ProductFind_Gender, value);
+        }
+        #endregion
+
         #region Товары->Поиск->Бренд товара
         private string _ProductFind_Brand;
         public string ProductFind_Brand
@@ -249,6 +258,7 @@ namespace Shop.ViewModels
         public void OnFindProductCommandExecute(object p)
         {
             if (ProductFind_Name != null ||
+                ProductFind_Gender != null ||
                 ProductFind_Brand != null ||
                 ProductFind_Type != null ||
                 ProductFind_Color != null ||
@@ -257,10 +267,9 @@ namespace Shop.ViewModels
                 ProductFind_Amount != null)
             {
                 ShopAccessLibrary library = new ShopAccessLibrary();
-                FindProductsResult = library.SearchProductByCharacteristics(ProductFind_Name, ProductFind_Brand,
+                FindProductsResult = library.SearchProductByCharacteristics(ProductFind_Name, ProductFind_Gender, ProductFind_Brand,
                     ProductFind_Type, ProductFind_Color, ProductFind_Size, ProductFind_Price, ProductFind_Amount);
                 DataGridForFindProductFormVisibility = Visibility.Visible;
-
             }
         }
 
@@ -275,8 +284,7 @@ namespace Shop.ViewModels
         public ICommand ClearFindProductFormCommand { get; }
         public void OnClearFindProductFormCommandExecute(object p)
         {
-            ProductFind_Name = ProductFind_Brand = ProductFind_Type = ProductFind_Color = 
-                ProductFind_Size = ProductFind_Price = ProductFind_Amount = null;
+            ClearAllTextBoxes();
             FindProductsResult = null;
             DataGridForFindProductFormVisibility = Visibility.Collapsed;
         }
@@ -325,6 +333,7 @@ namespace Shop.ViewModels
         public void OnAddProductCommandExecute(object p)
         {
             if (ProductAdd_Name != null &&
+                ProductFind_Gender != null &&
                 ProductAdd_Brand != null &&
                 ProductAdd_Type != null &&
                 ProductAdd_Color != null &&
@@ -335,16 +344,16 @@ namespace Shop.ViewModels
                 ShopAccessLibrary library = new ShopAccessLibrary();
                 try
                 {
-                    library.AddProduct(ProductAdd_Name, ProductAdd_Brand,
+                    library.AddProduct(ProductAdd_Name, ProductFind_Gender, ProductAdd_Brand,
                         ProductAdd_Type, ProductAdd_Color, ProductAdd_Size, ProductAdd_Price, ProductAdd_Amount);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
 
-                ProductAdd_Name = ProductAdd_Brand = ProductAdd_Type = ProductAdd_Color =
-                ProductAdd_Size = ProductAdd_Price = ProductAdd_Amount = null;
+                ClearAllTextBoxes();
             }
         }
 
@@ -559,7 +568,7 @@ namespace Shop.ViewModels
 
         public void ClearAllTextBoxes()
         {
-            ProductAdd_Name = ProductFind_Name = ProductAdd_Brand = ProductFind_Brand = ProductAdd_Type = 
+            ProductAdd_Name = ProductFind_Gender = ProductAdd_Brand = ProductFind_Brand = ProductAdd_Type = 
                 ProductFind_Type = ProductAdd_Color = ProductFind_Color = ProductAdd_Size = ProductFind_Size 
                 = ProductAdd_Price = ProductFind_Price = ProductAdd_Amount = ProductFind_Amount = null;
         }

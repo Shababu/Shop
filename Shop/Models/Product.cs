@@ -10,6 +10,7 @@ namespace Shop.Models
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
+        public string ProductGender { get; set; }
         public string ProductBrand { get; set; }
         public string ProductType { get; set; }
         public string ProductColor { get; set; }
@@ -17,11 +18,12 @@ namespace Shop.Models
         public float ProductPrice { get; set; }
         public int ProductAmount { get; set; }
 
-        public Product(int id, string name, string brand, string type, 
+        public Product(int id, string name, string gender, string brand, string type, 
                        string color, string size, float price, int amount)
         {
             ProductId = id;
             ProductName = name;
+            ProductGender = gender;
             ProductBrand = brand;
             ProductType = type;
             ProductColor = color;

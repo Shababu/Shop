@@ -19,7 +19,7 @@ namespace Shop
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT ProductID, ProductName, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount FROM Products join Colors_Sizes on Colors_Sizes.Color_SizeID = Products.Color_SizeID join Colors on Colors_Sizes.ColorID = Colors.ColorID join Sizes on Colors_Sizes.SizeID = Sizes.SizeID join Brands on Products.BrandID = Brands.BrandID", connection);
+                SqlCommand command = new SqlCommand("SELECT ProductID, ProductName, Gender, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount FROM Products join Colors_Sizes on Colors_Sizes.Color_SizeID = Products.Color_SizeID join Colors on Colors_Sizes.ColorID = Colors.ColorID join Sizes on Colors_Sizes.SizeID = Sizes.SizeID join Brands on Products.BrandID = Brands.BrandID", connection);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -31,18 +31,20 @@ namespace Shop
                         reader.GetValue(3).ToString(),
                         reader.GetValue(4).ToString(),
                         reader.GetValue(5).ToString(),
-                        (float)Convert.ToDouble(reader.GetValue(6)),
-                        Convert.ToInt32(reader.GetValue(7))));
+                        reader.GetValue(6).ToString(),
+                        (float)Convert.ToDouble(reader.GetValue(7)),
+                        Convert.ToInt32(reader.GetValue(8))));
                 }
             }
             return products;
         }
-        internal List<Product> SearchProductByCharacteristics(string name, string brand, string type, string color, string size, string price, string amount)
+        internal List<Product> SearchProductByCharacteristics(string name, string gender, string brand, string type, string color, string size, string price, string amount)
         {
             List<Product> products = new List<Product>();
 
             string nameForQuery = string.Empty;
             string brandForQuery = string.Empty;
+            string genderForQuery = string.Empty;
             string typeForQuery = string.Empty;
             string colorForQuery = string.Empty;
             string sizeForQuery = string.Empty;
@@ -59,6 +61,11 @@ namespace Shop
             if (brand != null)
             {
                 brandForQuery = $"Brands.BrandName = '{brand}'";
+                chars.Add(brandForQuery);
+            }
+            if (gender != null)
+            {
+                genderForQuery = $"Gender = '{gender}'";
                 chars.Add(brandForQuery);
             }
             if (type != null)
@@ -87,7 +94,7 @@ namespace Shop
                 chars.Add(amountForQuery);
             }
 
-            string searchQuery = $"SELECT ProductID, ProductName, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount FROM Products join Colors_Sizes on Colors_Sizes.Color_SizeID = Products.Color_SizeID join Colors on Colors_Sizes.ColorID = Colors.ColorID join Sizes on Colors_Sizes.SizeID = Sizes.SizeID join Brands on Products.BrandID = Brands.BrandID where ";
+            string searchQuery = $"SELECT ProductID, ProductName, Gender, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount FROM Products join Colors_Sizes on Colors_Sizes.Color_SizeID = Products.Color_SizeID join Colors on Colors_Sizes.ColorID = Colors.ColorID join Sizes on Colors_Sizes.SizeID = Sizes.SizeID join Brands on Products.BrandID = Brands.BrandID where ";
 
             int counter = 0;
 
@@ -119,8 +126,9 @@ namespace Shop
                         reader.GetValue(3).ToString(),
                         reader.GetValue(4).ToString(),
                         reader.GetValue(5).ToString(),
-                        (float)Convert.ToDouble(reader.GetValue(6)),
-                        Convert.ToInt32(reader.GetValue(7))));
+                        reader.GetValue(6).ToString(),
+                        (float)Convert.ToDouble(reader.GetValue(7)),
+                        Convert.ToInt32(reader.GetValue(8))));
                 }
             }
             return products;
@@ -130,7 +138,7 @@ namespace Shop
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand($"Select ProductID, ProductName, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount from Products join Brands on Brands.BrandID = Products.BrandID join Colors_Sizes on Products.Color_SizeID = Colors_Sizes.Color_SizeID join Colors on Colors.ColorID = Colors_Sizes.ColorID join Sizes on Sizes.SizeID = Colors_Sizes.SizeID where ProductID = {productId}", connection);
+                SqlCommand command = new SqlCommand($"Select ProductID, ProductName, Gender, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount from Products join Brands on Brands.BrandID = Products.BrandID join Colors_Sizes on Products.Color_SizeID = Colors_Sizes.Color_SizeID join Colors on Colors.ColorID = Colors_Sizes.ColorID join Sizes on Sizes.SizeID = Colors_Sizes.SizeID where ProductID = {productId}", connection);
                 SqlDataReader reader = command.ExecuteReader();
                 reader.Read();
                 return new Product(
@@ -140,18 +148,19 @@ namespace Shop
                     reader.GetValue(3).ToString(),
                     reader.GetValue(4).ToString(),
                     reader.GetValue(5).ToString(),
-                    (float)Convert.ToDouble(reader.GetValue(6)),
-                    Convert.ToInt32(reader.GetValue(7)));
+                    reader.GetValue(6).ToString(),
+                    (float)Convert.ToDouble(reader.GetValue(7)),
+                    Convert.ToInt32(reader.GetValue(8)));
             }
         }
-        internal void AddProduct(string name, string brand, string type, string color, string size, string price, string amount)
+        internal void AddProduct(string name, string gender, string brand, string type, string color, string size, string price, string amount)
         {            
             int brandId = Convert.ToInt32(GetBrandId(brand));
             int colorId = Convert.ToInt32(GetColorId(color));
             int sizeId = Convert.ToInt32(GetSizeId(size));
             int color_sizeId = Convert.ToInt32(GetColor_SizeId(colorId, sizeId));
 
-            string addProductQuery = $"insert into Products values ('{name}', {brandId}, '{type}', {color_sizeId}, {price}, {amount})";
+            string addProductQuery = $"insert into Products values ('{name}', {brandId}, '{type}', {color_sizeId}, {price}, {amount}, '{gender}')";
 
             try
             {
