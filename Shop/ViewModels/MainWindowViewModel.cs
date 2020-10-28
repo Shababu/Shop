@@ -1,4 +1,5 @@
-﻿using Shop.Infrastructure.Commands;
+﻿using Microsoft.Win32;
+using Shop.Infrastructure.Commands;
 using Shop.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,12 @@ using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using System.Xml;
+using System.IO;
+using System.Drawing;
+using System.Windows.Media.Imaging;
+using System.Windows.Controls;
+using Image = System.Windows.Controls.Image;
+using System.Windows.Media;
 
 namespace Shop.ViewModels
 {
@@ -327,6 +334,43 @@ namespace Shop.ViewModels
 
         #endregion
 
+        #region Товары---Добавить---Поиск изображения
+        public ICommand ProductPhotoSearchCommand { get; }
+
+        private BitmapImage _ImageToAdd;
+        public BitmapImage ImageToAdd { get => _ImageToAdd; set => Set(ref _ImageToAdd, value); }
+
+        private byte[] _ProductImageInBytes;
+        public byte[] ProductImageInBytes { get => _ProductImageInBytes; set => Set(ref _ProductImageInBytes, value); }
+
+        public void OnProductPhotoSearchCommandExecute(object p)
+        {
+            string fileName = string.Empty;
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            if(fileDialog.ShowDialog() == true)
+            {
+                fileName = fileDialog.FileName;
+
+                Uri ImageToAddUri = new Uri(fileName);
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = ImageToAddUri;
+                bi.DecodePixelWidth = 50;
+                bi.DecodePixelHeight = 60;
+                bi.EndInit();
+
+                ImageToAdd = bi;
+                //ImageConverter converter = new ImageConverter();
+                //ProductImageInBytes = (byte[])converter.ConvertTo(ImageToAdd, typeof(byte[]));
+            }
+        }
+
+        public bool CanProductPhotoSearchCommandExecute(object p)
+        {
+            return true;
+        }
+        #endregion
+
         #region Команда "Товары---Добавить---Добавить"
 
         public ICommand AddProductCommand { get; }
@@ -557,7 +601,8 @@ namespace Shop.ViewModels
             ShowAllProductsCommand = new LambdaCommand(OnShowAllProductsCommandExecute, CanShowAllProductsCommandExecute);
             OpenOrdersMenuWindowCommand = new LambdaCommand(OnOpenOrdersMenuWindowCommandExecute, CanOpenOrdersMenuWindowCommandExecute);
             FindOrderByIdCommand = new LambdaCommand(OnFindOrderByIdCommandExecute, CanFindOrderByIdCommandExecute);
-            AddProductToCartCommand = new LambdaCommand(OnAddProductToCartCommandExecute, CanAddProductToCartCommandExecute);            
+            AddProductToCartCommand = new LambdaCommand(OnAddProductToCartCommandExecute, CanAddProductToCartCommandExecute);
+            ProductPhotoSearchCommand = new LambdaCommand(OnProductPhotoSearchCommandExecute, CanProductPhotoSearchCommandExecute);
         }
    
         public void HideAllDataGrids()
