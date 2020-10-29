@@ -7,7 +7,7 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Shop.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="1070" Background="Gray">
+        Title="MainWindow" Background="Gray">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -31,7 +31,7 @@
         </Style>
     </Window.Resources>
     
-    <DockPanel LastChildFill="True" >
+    <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Top" >
             <Menu Background="#FF212121">
                 <MenuItem Header="Файл" Style="{StaticResource MenuItemsWhite}">
@@ -113,9 +113,8 @@
             </StackPanel>
 
             <GridSplitter Grid.Column="1" Width="3" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-
-            <StackPanel Grid.Column="2">
-
+            <ScrollViewer Grid.Column="2">
+            <StackPanel>
                 <TabControl x:Name="tabControlForProducts" Visibility="{Binding TabControlForProductsVisibility}">
                     <TabItem Header="Поиск">
                         <StackPanel>
@@ -244,7 +243,8 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
 
-                                <DataGrid x:Name="mouse" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DataGridStyle}" 
+                                
+                                <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DataGridStyle}" 
                                           Visibility="{Binding DataGridForFindProductFormVisibility}" 
                                           ItemsSource="{Binding FindProductsResult}">
                                     <DataGrid.Columns>
@@ -494,10 +494,10 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-
+                            
                             <StackPanel Grid.Row="0" Grid.Column="0">
                                 <TextBlock Text="Корзина" FontWeight="Bold"/>
-                                <DataGrid Name="dataGridForCart" Style="{StaticResource DataGridStyle}" Visibility="{Binding DataGridForCartVisibility}" ItemsSource="{Binding CartItemsSource}" AutoGenerateColumns="False" AlternatingRowBackground="#FF61FFAD" RowBackground="#FF61FFAD" >
+                                <DataGrid Style="{StaticResource DataGridStyle}" Visibility="{Binding DataGridForCartVisibility}" ItemsSource="{Binding CartItemsSource}" AutoGenerateColumns="False" AlternatingRowBackground="#FF61FFAD" RowBackground="#FF61FFAD" >
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Id" Binding="{Binding ProductId}"/>
                                         <DataGridTextColumn Header="Наименование" Binding="{Binding ProductName}"/>
@@ -518,126 +518,158 @@
                                           VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
 
                             <Grid Grid.Column="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="130"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Поиск товара" FontWeight="Bold"/>
+                                <StackPanel >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="110"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
 
-                                <Label Grid.Row="1" Grid.Column="0" Content="Наименование:" HorizontalAlignment="Right"/>
-                                <TextBox  Grid.Row="1" Grid.Column="1" 
-                                         Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
-                                         Text="{Binding ProductFind_Name, Mode=TwoWay}"/>
+                                        <Label Grid.Row="0" Grid.Column="0" Content="Наименование:" HorizontalAlignment="Right"/>
+                                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                            Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                            Text="{Binding ProductFind_Name, Mode=TwoWay}"/>
 
-                                <Label Grid.Row="2" Grid.Column="0" Content="Бренд:" HorizontalAlignment="Right"/>
-                                <ComboBox Grid.Row="2" Grid.Column="1" 
-                                          Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
-                                          Text="{Binding ProductFind_Brand, Mode=TwoWay}">
+                                        <Label Grid.Row="1" Grid.Column="0" Content="Пол:" HorizontalAlignment="Right"/>
+                                        <ComboBox Grid.Row="1" Grid.Column="1" Margin="10,5,0,0" Width="250" 
+                                            HorizontalAlignment="Left" Text="{Binding ProductFind_Gender, Mode=TwoWay}">
 
-                                    <ComboBoxItem Content="Adidas"/>
-                                    <ComboBoxItem Content="Nike"/>
-                                    <ComboBoxItem Content="Reebok"/>
-                                    <ComboBoxItem Content="Jordan"/>
-                                </ComboBox>
+                                            <ComboBoxItem Content="Мужской"/>
+                                            <ComboBoxItem Content="Женский"/>
+                                        </ComboBox>
 
-                                <Label Grid.Row="3" Grid.Column="0" Content="Тип:" HorizontalAlignment="Right"/>
-                                <ComboBox Grid.Row="3" Grid.Column="1" 
-                                          Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
-                                          Text="{Binding ProductFind_Type, Mode=TwoWay}">
 
-                                    <ComboBoxItem Content="Шапка"/>
-                                    <ComboBoxItem Content="Кепка"/>
-                                    <ComboBoxItem Content="Футболка"/>
-                                    <ComboBoxItem Content="Толстовка"/>
-                                    <ComboBoxItem Content="Куртка"/>
-                                    <ComboBoxItem Content="Спортивный костюм"/>
-                                    <ComboBoxItem Content="Брюки"/>
-                                    <ComboBoxItem Content="Шорты"/>
-                                    <ComboBoxItem Content="Кроссовки"/>
-                                    <ComboBoxItem Content="Носки"/>
+                                        <Label Grid.Row="2" Grid.Column="0" Content="Бренд:" HorizontalAlignment="Right"/>
+                                        <ComboBox Grid.Row="2" Grid.Column="1" 
+                                            Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                            Text="{Binding ProductFind_Brand, Mode=TwoWay}">
 
-                                </ComboBox>
+                                            <ComboBoxItem Content="Adidas"/>
+                                            <ComboBoxItem Content="Nike"/>
+                                            <ComboBoxItem Content="Reebok"/>
+                                            <ComboBoxItem Content="Jordan"/>
+                                        </ComboBox>
 
-                                <Label Grid.Row="4" Grid.Column="0" Content="Цвет:" HorizontalAlignment="Right"/>
-                                <ComboBox Grid.Row="4" Grid.Column="1" 
-                                          Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
-                                          Text="{Binding ProductFind_Color, Mode=TwoWay}">
+                                        <Label Grid.Row="3" Grid.Column="0" Content="Тип:" HorizontalAlignment="Right"/>
+                                        <ComboBox Grid.Row="3" Grid.Column="1" 
+                                            Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                            Text="{Binding ProductFind_Type, Mode=TwoWay}">
 
-                                    <ComboBoxItem Content="Чёрный"/>
-                                    <ComboBoxItem Content="Белый"/>
-                                    <ComboBoxItem Content="Жёлтый"/>
-                                    <ComboBoxItem Content="Зелёный"/>
-                                    <ComboBoxItem Content="Красный"/>
-                                    <ComboBoxItem Content="Синий"/>
-                                    <ComboBoxItem Content="Розовый"/>
-                                    <ComboBoxItem Content="Коричневый"/>
-                                    <ComboBoxItem Content="Фиолетовый"/>
-                                    <ComboBoxItem Content="Оранжевый"/>
-                                    <ComboBoxItem Content="Серый"/>
+                                            <ComboBoxItem Content="Шапка"/>
+                                            <ComboBoxItem Content="Кепка"/>
+                                            <ComboBoxItem Content="Футболка"/>
+                                            <ComboBoxItem Content="Толстовка"/>
+                                            <ComboBoxItem Content="Куртка"/>
+                                            <ComboBoxItem Content="Спортивный костюм"/>
+                                            <ComboBoxItem Content="Брюки"/>
+                                            <ComboBoxItem Content="Шорты"/>
+                                            <ComboBoxItem Content="Кроссовки"/>
+                                            <ComboBoxItem Content="Носки"/>
 
-                                </ComboBox>
+                                        </ComboBox>
 
-                                <Label Grid.Row="5" Grid.Column="0" Content="Размер:" HorizontalAlignment="Right"/>
-                                <ComboBox Grid.Row="5" Grid.Column="1" 
-                                          Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
-                                          Text="{Binding ProductFind_Size, Mode=TwoWay}">
+                                        <Label Grid.Row="4" Grid.Column="0" Content="Цвет:" HorizontalAlignment="Right"/>
+                                        <ComboBox Grid.Row="4" Grid.Column="1" 
+                                            Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                            Text="{Binding ProductFind_Color, Mode=TwoWay}">
 
-                                    <ComboBoxItem Content="XS"/>
-                                    <ComboBoxItem Content="S"/>
-                                    <ComboBoxItem Content="M"/>
-                                    <ComboBoxItem Content="L"/>
-                                    <ComboBoxItem Content="XL"/>
-                                    <ComboBoxItem Content="XXL"/>
-                                    <ComboBoxItem Content="XXXL"/>
+                                            <ComboBoxItem Content="Чёрный"/>
+                                            <ComboBoxItem Content="Белый"/>
+                                            <ComboBoxItem Content="Жёлтый"/>
+                                            <ComboBoxItem Content="Зелёный"/>
+                                            <ComboBoxItem Content="Красный"/>
+                                            <ComboBoxItem Content="Синий"/>
+                                            <ComboBoxItem Content="Розовый"/>
+                                            <ComboBoxItem Content="Коричневый"/>
+                                            <ComboBoxItem Content="Фиолетовый"/>
+                                            <ComboBoxItem Content="Оранжевый"/>
+                                            <ComboBoxItem Content="Серый"/>
 
-                                </ComboBox>
+                                        </ComboBox>
 
-                                <Label Grid.Row="6" Grid.Column="0" Content="Цена:" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="6" Grid.Column="1" 
-                                         Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
-                                         Text="{Binding ProductFind_Price, Mode=TwoWay}"/>
+                                        <Label Grid.Row="5" Grid.Column="0" Content="Размер:" HorizontalAlignment="Right"/>
+                                        <ComboBox Grid.Row="5" Grid.Column="1" 
+                                            Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                            Text="{Binding ProductFind_Size, Mode=TwoWay}">
 
-                                <Label Grid.Row="7" Grid.Column="0" Content="Количество:" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="7" Grid.Column="1" 
-                                         Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
-                                         Text="{Binding ProductFind_Amount, Mode=TwoWay}"/>
+                                            <ComboBoxItem Content="XS"/>
+                                            <ComboBoxItem Content="S"/>
+                                            <ComboBoxItem Content="M"/>
+                                            <ComboBoxItem Content="L"/>
+                                            <ComboBoxItem Content="XL"/>
+                                            <ComboBoxItem Content="XXL"/>
+                                            <ComboBoxItem Content="XXXL"/>
 
-                                <Button Grid.Row="8" Grid.Column="0" Content="Поиск" 
-                                        Style="{StaticResource BlueButtonStyle}" Width="120" Command="{Binding FindProductCommand}"/>
+                                        </ComboBox>
 
-                                <DataGrid Name="dataGridSearchProduct" Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="0" Style="{StaticResource DataGridStyle}" 
-                                          Margin="0,5,0,0" Visibility="{Binding DataGridForFindProductFormVisibility}" 
-                                          ItemsSource="{Binding FindProductsResult}" SelectedItem="{Binding Path=SelectedProductForCart, Mode=TwoWay}">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Id" Binding="{Binding ProductId}"/>
-                                        <DataGridTextColumn Header="Наименование" Binding="{Binding ProductName}"/>
-                                        <DataGridTextColumn Header="Пол" Binding="{Binding ProductGender}"/>
-                                        <DataGridTextColumn Header="Бренд" Binding="{Binding ProductBrand}"/>
-                                        <DataGridTextColumn Header="Тип" Binding="{Binding ProductType}"/>
-                                        <DataGridTextColumn Header="Цвет" Binding="{Binding ProductColor}"/>
-                                        <DataGridTextColumn Header="Размер" Binding="{Binding ProductSize}"/>
-                                        <DataGridTextColumn Header="Цена" Binding="{Binding ProductPrice}"/>
-                                        <DataGridTextColumn Header="Количество" Binding="{Binding ProductAmount}"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
+                                        <Label Grid.Row="6" Grid.Column="0" Content="Цена:" HorizontalAlignment="Right"/>
+                                        <TextBox Grid.Row="6" Grid.Column="1" 
+                                            Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                            Text="{Binding ProductFind_Price, Mode=TwoWay}"/>
 
-                                <Button Grid.Row="10" Grid.Column="0" Content="Добавить в корзину"
+                                        <Label Grid.Row="7" Grid.Column="0" Content="Количество:" HorizontalAlignment="Right"/>
+                                        <TextBox Grid.Row="7" Grid.Column="1" 
+                                            Margin="10,5,0,0" Width="250" HorizontalAlignment="Left" 
+                                            Text="{Binding ProductFind_Amount, Mode=TwoWay}"/>
+
+                                        <Button Grid.Row="8" Grid.Column="0" Content="Поиск" 
+                                        Style="{StaticResource BlueButtonStyle}" 
+                                        Command="{Binding FindProductCommand}"/>
+                                        <Button Grid.Row="8" Grid.Column="1" Content="Сброс" 
+                                        Style="{StaticResource BlueButtonStyle}" 
+                                        Command="{Binding ClearFindProductFormCommand}"/>
+
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="130"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DataGridStyle}" 
+                                            Visibility="{Binding DataGridForFindProductFormVisibility}" 
+                                            ItemsSource="{Binding FindProductsResult}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Id" Binding="{Binding ProductId}"/>
+                                                <DataGridTextColumn Header="Наименование" Binding="{Binding ProductName}"/>
+                                                <DataGridTextColumn Header="Пол" Binding="{Binding ProductGender}"/>
+                                                <DataGridTextColumn Header="Бренд" Binding="{Binding ProductBrand}"/>
+                                                <DataGridTextColumn Header="Тип" Binding="{Binding ProductType}"/>
+                                                <DataGridTextColumn Header="Цвет" Binding="{Binding ProductColor}"/>
+                                                <DataGridTextColumn Header="Размер" Binding="{Binding ProductSize}"/>
+                                                <DataGridTextColumn Header="Цена" Binding="{Binding ProductPrice}"/>
+                                                <DataGridTextColumn Header="Количество" Binding="{Binding ProductAmount}"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                        <Button Grid.Row="1" Grid.Column="0" Content="Заглушка" Background="#FF003581" 
+                                        Foreground="White" Margin="0,10,0,0" Height="30" Width="100" 
+                                        HorizontalAlignment="Left" Visibility="Collapsed" />
+                                        <Button Grid.Row="1" Grid.Column="1" Content="Заглушка" Background="#FF003581" 
+                                        Foreground="White" Margin="10,10,0,0" Height="30" Width="100" 
+                                        HorizontalAlignment="Left" Visibility="Collapsed" />
+
+                                    </Grid>
+                                    <Button Grid.Row="10" Grid.Column="0" Content="Добавить в корзину"
                                         Style="{StaticResource BlueButtonStyle}" Width="120" Command="{Binding AddProductToCartCommand}" />
+                                </StackPanel>
                             </Grid>
                         </Grid>
                     </TabItem>
@@ -685,6 +717,7 @@
                             Foreground="White" Margin="0,10,0,0" Height="30"/>
                 </Grid>
             </StackPanel>
+            </ScrollViewer>
         </Grid>
          
     </DockPanel>

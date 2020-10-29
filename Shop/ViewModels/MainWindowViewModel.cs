@@ -334,7 +334,7 @@ namespace Shop.ViewModels
 
         #endregion
 
-        #region Товары---Добавить---Поиск изображения
+        #region Команда "Товары---Добавить---Поиск изображения"
         public ICommand ProductPhotoSearchCommand { get; }
 
         private BitmapImage _ImageToAdd;
@@ -343,15 +343,23 @@ namespace Shop.ViewModels
         private byte[] _ProductImageInBytes;
         public byte[] ProductImageInBytes { get => _ProductImageInBytes; set => Set(ref _ProductImageInBytes, value); }
 
+        private string _ProductImageName;
+        public string ProductImageName { get => _ProductImageName; set => Set(ref _ProductImageName, value); }
+
         public void OnProductPhotoSearchCommandExecute(object p)
         {
-            string fileName = string.Empty;
+            string filePath = string.Empty;
             OpenFileDialog fileDialog = new OpenFileDialog();
-            if(fileDialog.ShowDialog() == true)
+            if (fileDialog.ShowDialog() == true)
             {
-                fileName = fileDialog.FileName;
+                filePath = fileDialog.FileName;
+                ProductImageName = fileDialog.SafeFileName;
 
-                Uri ImageToAddUri = new Uri(fileName);
+                System.Drawing.Image img = System.Drawing.Image.FromFile(filePath);
+                ImageConverter converter = new ImageConverter();
+                ProductImageInBytes = (byte[])converter.ConvertTo(img, typeof(byte[]));
+
+                Uri ImageToAddUri = new Uri(filePath);
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
                 bi.UriSource = ImageToAddUri;
@@ -359,9 +367,7 @@ namespace Shop.ViewModels
                 bi.DecodePixelHeight = 60;
                 bi.EndInit();
 
-                ImageToAdd = bi;
-                //ImageConverter converter = new ImageConverter();
-                //ProductImageInBytes = (byte[])converter.ConvertTo(ImageToAdd, typeof(byte[]));
+                ImageToAdd = bi;                
             }
         }
 
@@ -389,7 +395,7 @@ namespace Shop.ViewModels
                 try
                 {
                     library.AddProduct(ProductAdd_Name, ProductFind_Gender, ProductAdd_Brand,
-                        ProductAdd_Type, ProductAdd_Color, ProductAdd_Size, ProductAdd_Price, ProductAdd_Amount);
+                        ProductAdd_Type, ProductAdd_Color, ProductAdd_Size, ProductAdd_Price, ProductAdd_Amount, ProductImageInBytes, ProductImageName);
                 }
                 catch (Exception ex)
                 {

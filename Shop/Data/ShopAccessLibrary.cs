@@ -153,14 +153,19 @@ namespace Shop
                     Convert.ToInt32(reader.GetValue(8)));
             }
         }
-        internal void AddProduct(string name, string gender, string brand, string type, string color, string size, string price, string amount)
-        {            
+        internal void AddProduct(string name, string gender, string brand, string type, string color, string size, string price, string amount, byte[] image, string imageName)
+        {
+            if(AddProductImage(image, imageName) == false)
+            {
+                return;
+            }
+            int imageId = GetProductImageId(imageName);
             int brandId = Convert.ToInt32(GetBrandId(brand));
             int colorId = Convert.ToInt32(GetColorId(color));
             int sizeId = Convert.ToInt32(GetSizeId(size));
             int color_sizeId = Convert.ToInt32(GetColor_SizeId(colorId, sizeId));
 
-            string addProductQuery = $"insert into Products values ('{name}', {brandId}, '{type}', {color_sizeId}, {price}, {amount}, '{gender}')";
+            string addProductQuery = $"insert into Products values ('{name}', {brandId}, '{type}', {color_sizeId}, {price}, {amount}, '{gender}', {imageId})";
 
             try
             {
@@ -175,9 +180,100 @@ namespace Shop
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message + " ОШИБКА ТУТ --> AddProduct", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        internal bool AddProductImage(byte[] image, string name)
+        {
+            string addProductImageQuery = $"insert into ProductImages (Image, ImageName) values (@Image, @ImageName)";
+            if (IsProductImageNameUniq(name))
+            {
+                try
+                {
+                    using (SqlConnection connection = new SqlConnection(_connectionString))
+                    {
+                        connection.Open();
+
+                        SqlCommand command = new SqlCommand(addProductImageQuery, connection);
+                        command.Parameters.AddWithValue("@Image", image);
+                        command.Parameters.AddWithValue("@ImageName", name);
+                        command.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + " ОШИБКА ТУТ --> AddProductImage", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("Изображение с данным именем уже есть в Базе данных. Хотите использовать уже имеющееся изображение для данного товара?", "Недопустимое имя файла", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                if (result == MessageBoxResult.Yes)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        internal int GetProductImageId(string name)
+        {
+            string getImageIdQuery = $"select ImageID from ProductImages where ImageName = '{name}'";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand(getImageIdQuery, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        return Convert.ToInt32(reader.GetValue(0).ToString());
+                    }
+                    else return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + " ОШИБКА ТУТ --> GetProductImageId", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return -1;
+            }
+        }
+        internal bool IsProductImageNameUniq(string name)
+        {
+            string uniqCheckQuery = $"select ImageName from ProductImages where ImageName = '{name}'";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand(uniqCheckQuery, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        return false;
+                    }
+                    else return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + " ОШИБКА ТУТ --> GetProductImageId", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+        }
+
         internal int GetBrandId(string brand)
         {
             string brandIdQuery = $"select Brands.BrandID from Brands where Brands.BrandName = '{brand}'";
