@@ -235,7 +235,7 @@
 
                             <Grid x:Name="SectionDisplayProductsFind">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="110"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -260,12 +260,8 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
 
-                                <Button Grid.Row="1" Grid.Column="0" Content="Заглушка" Background="#FF003581" 
-                                        Foreground="White" Margin="0,10,0,0" Height="30" Width="100" 
-                                        HorizontalAlignment="Left" Visibility="Collapsed" />
-                                <Button Grid.Row="1" Grid.Column="1" Content="Заглушка" Background="#FF003581" 
-                                        Foreground="White" Margin="10,10,0,0" Height="30" Width="100" 
-                                        HorizontalAlignment="Left" Visibility="Collapsed" />
+                                <Button Grid.Row="1" Grid.Column="0" Content="Подробнее..." Style="{StaticResource BlueButtonStyle}" Visibility="{Binding MoreButtonProductFormVisibility}"/>
+                                    <Button Grid.Row="1" Grid.Column="1" Content="Изменить" Style="{StaticResource BlueButtonStyle}" Visibility="{Binding UpdateButtonProductFormVisibility}"/>
 
                             </Grid>
                         </StackPanel>

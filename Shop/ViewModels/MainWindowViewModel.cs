@@ -107,6 +107,8 @@ namespace Shop.ViewModels
         }
         #endregion
 
+        #region Товары->Поиск->DataSourceItems
+
         private List<Product> _FindProductsResult;
 
         public List<Product> FindProductsResult
@@ -114,6 +116,9 @@ namespace Shop.ViewModels
             get => _FindProductsResult;
             set => Set(ref _FindProductsResult, value);
         }
+        #endregion
+
+        #region Товары->Поиск->DataSourceItemsVisibility
 
         private Visibility _DataGridForFindProductFormVisibility = Visibility.Collapsed;
 
@@ -122,6 +127,30 @@ namespace Shop.ViewModels
             get => _DataGridForFindProductFormVisibility;
             set => Set(ref _DataGridForFindProductFormVisibility, value);
         }
+        #endregion
+
+        #region Товары->Поиск->Кнопка ПОДРОБНЕЕ Visibility
+
+        private Visibility _MoreButtonProductFormVisibility = Visibility.Collapsed;
+
+        public Visibility MoreButtonProductFormVisibility
+        {
+            get => _MoreButtonProductFormVisibility;
+            set => Set(ref _MoreButtonProductFormVisibility, value);
+        }
+        #endregion
+
+        #region Товары->Поиск->Кнопка ИЗМЕНИТЬ Visibility
+
+        private Visibility _UpdateButtonProductFormVisibility = Visibility.Collapsed;
+
+        public Visibility UpdateButtonProductFormVisibility
+        {
+            get => _UpdateButtonProductFormVisibility;
+            set => Set(ref _UpdateButtonProductFormVisibility, value);
+        }
+        #endregion
+
         #endregion
 
         #region Свойства для "Товары---Поиск по Id"
