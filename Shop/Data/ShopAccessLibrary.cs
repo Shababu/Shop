@@ -66,7 +66,7 @@ namespace Shop
             if (gender != null)
             {
                 genderForQuery = $"Gender = '{gender}'";
-                chars.Add(brandForQuery);
+                chars.Add(genderForQuery);
             }
             if (type != null)
             {
