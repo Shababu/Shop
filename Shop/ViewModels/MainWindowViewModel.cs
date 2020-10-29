@@ -363,7 +363,7 @@ namespace Shop.ViewModels
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
                 bi.UriSource = ImageToAddUri;
-                bi.DecodePixelWidth = 50;
+                bi.DecodePixelWidth = 55;
                 bi.DecodePixelHeight = 60;
                 bi.EndInit();
 
