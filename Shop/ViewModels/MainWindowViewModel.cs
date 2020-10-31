@@ -154,6 +154,17 @@ namespace Shop.ViewModels
         }
         #endregion        
 
+        #region Товары->Поиск->Products_ImageBorderColor
+
+        private System.Windows.Media.Brush _Products_ImageBorderColor = System.Windows.Media.Brushes.White;
+
+        public System.Windows.Media.Brush Products_ImageBorderColor
+        {
+            get => _Products_ImageBorderColor;
+            set => Set(ref _Products_ImageBorderColor, value);
+        }
+        #endregion
+
         #region Товары->Поиск->Products_Search_DataGridSelectedItem
 
         private Product _Products_Search_DataGridSelectedItem;
@@ -176,6 +187,7 @@ namespace Shop.ViewModels
                     Products_Search_SelectedProductPhoto = bi;
                 }
                 Products_ProductImageVisibility = Visibility.Visible;
+                Products_ImageBorderColor = new SolidColorBrush(Colors.LightGreen);
             }
         }
 
@@ -700,7 +712,7 @@ namespace Shop.ViewModels
         public void HideAllDataGrids()
         {
             DataGridForAllProductsVisibility = DataGridForFindProductFormVisibility = 
-                DataGridForFindProductByIdFormVisibility = DataGridForFindOrderByIdFormVisibility = Visibility.Collapsed;
+                DataGridForFindProductByIdFormVisibility = DataGridForFindOrderByIdFormVisibility = Products_ProductImageVisibility = Visibility.Collapsed;
         }
 
         public void ClearAllTextBoxes()

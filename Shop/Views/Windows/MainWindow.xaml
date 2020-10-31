@@ -233,7 +233,7 @@
                                         Command="{Binding ClearFindProductFormCommand}"/>
 
                                     <Border Width="200" Height="250" Grid.Column="2" Grid.Row="0" Grid.RowSpan="9" 
-                                            BorderBrush="LightGreen" BorderThickness="3" CornerRadius="15" Visibility="{Binding Products_ProductImageVisibility}">
+                                            BorderBrush="{Binding Products_ImageBorderColor, Mode=TwoWay}" BorderThickness="3" CornerRadius="15" Visibility="{Binding Products_ProductImageVisibilityб, Mode=TwoWay}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Products_Search_SelectedProductPhoto, Mode=TwoWay}"/>
                                         </Border.Background>
@@ -253,7 +253,7 @@
 
                                     <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DataGridStyle}" 
                                           Visibility="{Binding DataGridForFindProductFormVisibility}" 
-                                          ItemsSource="{Binding FindProductsResult}" SelectedItem="{Binding Products_Search_DataGridSelectedItem, Mode=TwoWay}">
+                                          ItemsSource="{Binding FindProductsResult, Mode=TwoWay}" SelectedItem="{Binding Products_Search_DataGridSelectedItem, Mode=TwoWay}">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Id" Binding="{Binding ProductId}"/>
                                             <DataGridTextColumn Header="Наименование" Binding="{Binding ProductName}"/>
