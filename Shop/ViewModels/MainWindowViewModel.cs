@@ -345,6 +345,8 @@ namespace Shop.ViewModels
             FindProductsResult = null;
             HideAllDataGrids();
             ClearAllTextBoxes();
+            Products_ProductImageVisibility = Visibility.Collapsed;
+            Products_ImageBorderColor = new SolidColorBrush(Colors.White);
         }
 
         public bool CanOpenProductsMenuWindowCommandExecute(object p)
@@ -385,6 +387,7 @@ namespace Shop.ViewModels
         public void OnClearFindProductFormCommandExecute(object p)
         {
             ClearAllTextBoxes();
+            Products_ImageBorderColor = new SolidColorBrush(Colors.White);
             FindProductsResult = null;
             DataGridForFindProductFormVisibility = MoreButtonProductFormVisibility = UpdateButtonProductFormVisibility = Products_ProductImageVisibility = Visibility.Collapsed;
             Products_Search_SelectedProductPhoto = null;
@@ -628,6 +631,10 @@ namespace Shop.ViewModels
             TabControlForProductsVisibility = Visibility.Collapsed;
             TabControlForOrdersVisibility = Visibility.Visible;
             FindProductsResult = null;
+            Products_ProductImageVisibility = Visibility.Collapsed;
+            Products_ImageBorderColor = new SolidColorBrush(Colors.White);
+            Products_Search_SelectedProductPhoto = null;
+            MoreButtonProductFormVisibility = UpdateButtonProductFormVisibility = Visibility.Collapsed;
             HideAllDataGrids();
             ClearAllTextBoxes();
         }
@@ -713,6 +720,7 @@ namespace Shop.ViewModels
         {
             DataGridForAllProductsVisibility = DataGridForFindProductFormVisibility = 
                 DataGridForFindProductByIdFormVisibility = DataGridForFindOrderByIdFormVisibility = Products_ProductImageVisibility = Visibility.Collapsed;
+            Products_ImageBorderColor = new SolidColorBrush(Colors.White);
         }
 
         public void ClearAllTextBoxes()
