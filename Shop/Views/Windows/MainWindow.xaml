@@ -676,7 +676,7 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-                <TabControl Visibility="Visible">
+                <TabControl Visibility="Hidden">
                         <TabItem Header="Stats">
                             <Grid x:Name="gridAddEmployeeForm" >
                                 <Grid.ColumnDefinitions>
