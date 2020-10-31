@@ -16,8 +16,11 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
-using Image = System.Windows.Controls.Image;
+using Image = System.Drawing.Image;
 using System.Windows.Media;
+using System.Runtime.InteropServices;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace Shop.ViewModels
 {
@@ -128,6 +131,55 @@ namespace Shop.ViewModels
             set => Set(ref _DataGridForFindProductFormVisibility, value);
         }
         #endregion
+
+        #region Товары->Поиск->Products_ProductImageVisibility
+
+        private Visibility _Products_ProductImageVisibility = Visibility.Collapsed;
+
+        public Visibility Products_ProductImageVisibility
+        {
+            get => _Products_ProductImageVisibility;
+            set => Set(ref _Products_ProductImageVisibility, value);
+        }
+        #endregion
+
+        #region Товары->Поиск->Products_Search_SelectedProductPhoto
+
+        private BitmapImage _Products_Search_SelectedProductPhoto;
+
+        public BitmapImage Products_Search_SelectedProductPhoto
+        {
+            get => _Products_Search_SelectedProductPhoto;
+            set => Set(ref _Products_Search_SelectedProductPhoto, value);
+        }
+        #endregion        
+
+        #region Товары->Поиск->Products_Search_DataGridSelectedItem
+
+        private Product _Products_Search_DataGridSelectedItem;
+        public Product Products_Search_DataGridSelectedItem
+        {
+            get => _Products_Search_DataGridSelectedItem;
+            set
+            {
+                Set(ref _Products_Search_DataGridSelectedItem, value);
+                ShopAccessLibrary library = new ShopAccessLibrary();
+                
+                using (MemoryStream memoryStream = new MemoryStream(library.GetProductPhoto(_Products_Search_DataGridSelectedItem)))
+                {
+                    BitmapImage bi = new BitmapImage();
+                    bi.BeginInit();
+                    bi.StreamSource = memoryStream;
+                    bi.DecodePixelWidth = 200;
+                    bi.DecodePixelHeight = 250;
+                    bi.EndInit();
+                    Products_Search_SelectedProductPhoto = bi;
+                }
+                Products_ProductImageVisibility = Visibility.Visible;
+            }
+        }
+
+        #endregion        
 
         #region Товары->Поиск->Кнопка ПОДРОБНЕЕ Visibility
 
@@ -305,7 +357,7 @@ namespace Shop.ViewModels
                 ShopAccessLibrary library = new ShopAccessLibrary();
                 FindProductsResult = library.SearchProductByCharacteristics(ProductFind_Name, ProductFind_Gender, ProductFind_Brand,
                     ProductFind_Type, ProductFind_Color, ProductFind_Size, ProductFind_Price, ProductFind_Amount);
-                DataGridForFindProductFormVisibility = Visibility.Visible;
+                DataGridForFindProductFormVisibility = MoreButtonProductFormVisibility = UpdateButtonProductFormVisibility = Visibility.Visible;
             }
         }
 
@@ -322,7 +374,8 @@ namespace Shop.ViewModels
         {
             ClearAllTextBoxes();
             FindProductsResult = null;
-            DataGridForFindProductFormVisibility = Visibility.Collapsed;
+            DataGridForFindProductFormVisibility = MoreButtonProductFormVisibility = UpdateButtonProductFormVisibility = Products_ProductImageVisibility = Visibility.Collapsed;
+            Products_Search_SelectedProductPhoto = null;
         }
 
         public bool CanClearFindProductFormCommandExecute(object p)
@@ -392,11 +445,12 @@ namespace Shop.ViewModels
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
                 bi.UriSource = ImageToAddUri;
-                bi.DecodePixelWidth = 55;
-                bi.DecodePixelHeight = 60;
+                bi.DecodePixelWidth = 300;
+                bi.DecodePixelHeight = 370;
                 bi.EndInit();
 
-                ImageToAdd = bi;                
+                ImageToAdd = bi;    
+                
             }
         }
 
@@ -638,6 +692,9 @@ namespace Shop.ViewModels
             FindOrderByIdCommand = new LambdaCommand(OnFindOrderByIdCommandExecute, CanFindOrderByIdCommandExecute);
             AddProductToCartCommand = new LambdaCommand(OnAddProductToCartCommandExecute, CanAddProductToCartCommandExecute);
             ProductPhotoSearchCommand = new LambdaCommand(OnProductPhotoSearchCommandExecute, CanProductPhotoSearchCommandExecute);
+
+
+            LabelXrpPrice = string.Format($"{XrpPrice.Symbol} : {XrpPrice.Price:F4}");
         }
    
         public void HideAllDataGrids()
@@ -652,5 +709,44 @@ namespace Shop.ViewModels
                 ProductFind_Type = ProductAdd_Color = ProductFind_Color = ProductAdd_Size = ProductFind_Size 
                 = ProductAdd_Price = ProductFind_Price = ProductAdd_Amount = ProductFind_Amount = null;
         }
+
+
+
+
+        #region Удалить XRP
+        private string _LabelXrpPrice = string.Empty;
+
+        public string LabelXrpPrice
+        {
+            get => _LabelXrpPrice;
+            set => Set(ref _LabelXrpPrice, value);
+        }
+
+        private Xrp _XrpPrice = new Xrp();
+
+        public Xrp XrpPrice 
+        {
+            get => GetXrpPrice();
+            set => Set(ref _XrpPrice, value); 
+        }
+
+        public Xrp GetXrpPrice()
+        {
+            string url = "https://api.binance.com/api/v3/ticker/price?symbol=XRPUSDT";
+
+            HttpWebRequest HTTPrequest = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebResponse HTTPresponse = (HttpWebResponse)HTTPrequest.GetResponse();
+
+            string response;
+
+            using (StreamReader reader = new StreamReader(HTTPresponse.GetResponseStream()))
+            {
+                response = reader.ReadToEnd();
+            }
+
+            return JsonConvert.DeserializeObject<Xrp>(response);
+        }
+
+        #endregion
     }
 }

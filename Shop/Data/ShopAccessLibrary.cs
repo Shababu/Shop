@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.Sql;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Shop.Models;
+using Color = System.Drawing.Color;
+using Image = System.Drawing.Image;
 
 namespace Shop
 {
@@ -200,6 +206,7 @@ namespace Shop
                         command.Parameters.AddWithValue("@ImageName", name);
                         command.ExecuteNonQuery();
                         return true;
+                        
                     }
                 }
                 catch (Exception ex)
@@ -273,6 +280,64 @@ namespace Shop
                 return false;
             }
         }
+        internal string GetProductImageName(int productId)
+        {
+            string query = $"select ImageName from ProductImages join Products on Products.ImageID = ProductImages.ImageID where Products.ProductID = {productId}";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand(query, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        return reader.GetValue(0).ToString();
+                    }
+                    else return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + " ОШИБКА ТУТ --> GetProductImageId", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+
+        internal byte[] GetProductPhoto(Product product)
+        {
+            byte[] image;
+            ShopAccessLibrary library = new ShopAccessLibrary();
+            string photoName = library.GetProductImageName(product.ProductId);
+            string selectPhotoQuery = $"Select Image from ProductImages where ImageName = '{photoName}'";
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(selectPhotoQuery, connection);
+                SqlDataReader reader = command.ExecuteReader();
+
+                try
+                {
+                    if (reader.Read())
+                    {
+                        ImageConverter converter = new ImageConverter();
+                        image = (byte[])reader.GetValue(0);
+                        return image;
+                    }
+                }
+                catch (NullReferenceException ex)
+                {
+                    MessageBox.Show(ex.Message + " " + "Ошибка тут -> GetProductPhoto()", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                return null;
+            }
+        }
+
+
 
         internal int GetBrandId(string brand)
         {
