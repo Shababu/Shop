@@ -193,18 +193,7 @@ namespace Shop.ViewModels
 
         #endregion        
 
-        #region Товары->Поиск->Кнопка ПОДРОБНЕЕ Visibility
-
-        private Visibility _MoreButtonProductFormVisibility = Visibility.Collapsed;
-
-        public Visibility MoreButtonProductFormVisibility
-        {
-            get => _MoreButtonProductFormVisibility;
-            set => Set(ref _MoreButtonProductFormVisibility, value);
-        }
-        #endregion
-
-        #region Товары->Поиск->Кнопка ИЗМЕНИТЬ Visibility
+        #region Товары->Поиск->Кнопка Изменить Visibility
 
         private Visibility _UpdateButtonProductFormVisibility = Visibility.Collapsed;
 
@@ -212,6 +201,17 @@ namespace Shop.ViewModels
         {
             get => _UpdateButtonProductFormVisibility;
             set => Set(ref _UpdateButtonProductFormVisibility, value);
+        }
+        #endregion
+
+        #region Товары->Поиск->Кнопка Удалить Visibility
+
+        private Visibility _DeleteButtonProductFormVisibility = Visibility.Collapsed;
+
+        public Visibility DeleteButtonProductFormVisibility
+        {
+            get => _DeleteButtonProductFormVisibility;
+            set => Set(ref _DeleteButtonProductFormVisibility, value);
         }
         #endregion
 
@@ -371,8 +371,19 @@ namespace Shop.ViewModels
                 ShopAccessLibrary library = new ShopAccessLibrary();
                 FindProductsResult = library.SearchProductByCharacteristics(ProductFind_Name, ProductFind_Gender, ProductFind_Brand,
                     ProductFind_Type, ProductFind_Color, ProductFind_Size, ProductFind_Price, ProductFind_Amount);
-                DataGridForFindProductFormVisibility = MoreButtonProductFormVisibility = UpdateButtonProductFormVisibility = Visibility.Visible;
+                if (FindProductsResult.Count > 0)
+                {
+                    DataGridForFindProductFormVisibility = UpdateButtonProductFormVisibility = DeleteButtonProductFormVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    DataGridForFindProductFormVisibility = UpdateButtonProductFormVisibility = DeleteButtonProductFormVisibility = Visibility.Collapsed;
+                    MessageBox.Show("Ничего не найдено", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
+
+            Products_Search_SelectedProductPhoto = null;
+            Products_ImageBorderColor = new SolidColorBrush(Colors.White);
         }
 
         public bool CanFindProductCommandExecute(object p)
@@ -387,13 +398,22 @@ namespace Shop.ViewModels
         public void OnClearFindProductFormCommandExecute(object p)
         {
             ClearAllTextBoxes();
-            Products_ImageBorderColor = new SolidColorBrush(Colors.White);
             FindProductsResult = null;
-            DataGridForFindProductFormVisibility = MoreButtonProductFormVisibility = UpdateButtonProductFormVisibility = Products_ProductImageVisibility = Visibility.Collapsed;
+            DataGridForFindProductFormVisibility = UpdateButtonProductFormVisibility = DeleteButtonProductFormVisibility = Products_ProductImageVisibility = Visibility.Collapsed;
             Products_Search_SelectedProductPhoto = null;
+            Products_ImageBorderColor = new SolidColorBrush(Colors.White);
         }
 
         public bool CanClearFindProductFormCommandExecute(object p)
+        {
+            return true;
+        }
+
+        #endregion
+
+        #region Команда "Товары---Поиск---Удалить"
+
+        public bool CanDeleteProductCommandExecute(object p)
         {
             return true;
         }
@@ -502,6 +522,10 @@ namespace Shop.ViewModels
                 }
 
                 ClearAllTextBoxes();
+            }
+            else
+            {
+                MessageBox.Show("Все поля должны быть заполнены.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -634,7 +658,7 @@ namespace Shop.ViewModels
             Products_ProductImageVisibility = Visibility.Collapsed;
             Products_ImageBorderColor = new SolidColorBrush(Colors.White);
             Products_Search_SelectedProductPhoto = null;
-            MoreButtonProductFormVisibility = UpdateButtonProductFormVisibility = Visibility.Collapsed;
+            UpdateButtonProductFormVisibility = DeleteButtonProductFormVisibility = Visibility.Collapsed;
             HideAllDataGrids();
             ClearAllTextBoxes();
         }
@@ -711,7 +735,6 @@ namespace Shop.ViewModels
             FindOrderByIdCommand = new LambdaCommand(OnFindOrderByIdCommandExecute, CanFindOrderByIdCommandExecute);
             AddProductToCartCommand = new LambdaCommand(OnAddProductToCartCommandExecute, CanAddProductToCartCommandExecute);
             ProductPhotoSearchCommand = new LambdaCommand(OnProductPhotoSearchCommandExecute, CanProductPhotoSearchCommandExecute);
-
 
             LabelXrpPrice = string.Format($"{XrpPrice.Symbol} : {XrpPrice.Price:F4}");
         }

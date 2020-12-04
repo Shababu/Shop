@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Shop.Models;
-using Color = System.Drawing.Color;
-using Image = System.Drawing.Image;
 
 namespace Shop
 {
@@ -25,7 +19,7 @@ namespace Shop
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT ProductID, ProductName, Gender, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount FROM Products join Colors_Sizes on Colors_Sizes.Color_SizeID = Products.Color_SizeID join Colors on Colors_Sizes.ColorID = Colors.ColorID join Sizes on Colors_Sizes.SizeID = Sizes.SizeID join Brands on Products.BrandID = Brands.BrandID", connection);
+                SqlCommand command = new SqlCommand("SELECT ProductID, ProductName, Gender, Brands.BrandName, Type, Colors.ColorName, Sizes.SizeName, Price, Amount FROM Products join Colors_Sizes on Colors_Sizes.Color_SizeID = Products.Color_SizeID join Colors on Colors_Sizes.ColorID = Colors.ColorID join Sizes on Colors_Sizes.SizeID = Sizes.SizeID join Brands on Products.BrandID = Brands.BrandID", connection);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -61,7 +55,7 @@ namespace Shop
 
             if (name != null)
             {
-                nameForQuery = $"Products.ProductName = '{name}' or Products.ProductName like '{name}%' or Products.ProductName like '%{name}%' or Products.ProductName like '%{name}'";
+                nameForQuery = $"Products.ProductName like '%{name}%'";
                 chars.Add(nameForQuery);
             }
             if (brand != null)
@@ -71,7 +65,7 @@ namespace Shop
             }
             if (gender != null)
             {
-                genderForQuery = $"Gender = '{gender}'";
+                genderForQuery = $"Products.Gender = '{gender}'";
                 chars.Add(genderForQuery);
             }
             if (type != null)
@@ -81,12 +75,12 @@ namespace Shop
             }
             if (color != null)
             {
-                colorForQuery = $"Colors.Color = '{color}'";
+                colorForQuery = $"Colors.ColorName = '{color}'";
                 chars.Add(colorForQuery);
             }
             if (size != null)
             {
-                sizeForQuery = $"Sizes.Size = '{size}'";
+                sizeForQuery = $"Sizes.SizeName = '{size}'";
                 chars.Add(sizeForQuery);
             }
             if (price != null)
@@ -100,7 +94,7 @@ namespace Shop
                 chars.Add(amountForQuery);
             }
 
-            string searchQuery = $"SELECT ProductID, ProductName, Gender, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount FROM Products join Colors_Sizes on Colors_Sizes.Color_SizeID = Products.Color_SizeID join Colors on Colors_Sizes.ColorID = Colors.ColorID join Sizes on Colors_Sizes.SizeID = Sizes.SizeID join Brands on Products.BrandID = Brands.BrandID where ";
+            string searchQuery = $"SELECT ProductID, ProductName, Gender, Brands.BrandName, Type, Colors.ColorName, Sizes.SizeName, Price, Amount FROM Products join Colors_Sizes on Colors_Sizes.Color_SizeID = Products.Color_SizeID join Colors on Colors_Sizes.ColorID = Colors.ColorID join Sizes on Colors_Sizes.SizeID = Sizes.SizeID join Brands on Products.BrandID = Brands.BrandID where ";
 
             int counter = 0;
 
@@ -113,7 +107,7 @@ namespace Shop
                 else
                 {
                     searchQuery += $"{characteristic}";
-                    counter++;
+                    counter += 1;
                 }
             }
 
@@ -144,7 +138,7 @@ namespace Shop
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand($"Select ProductID, ProductName, Gender, Brands.BrandName, Type, Colors.Color, Sizes.Size, Price, Amount from Products join Brands on Brands.BrandID = Products.BrandID join Colors_Sizes on Products.Color_SizeID = Colors_Sizes.Color_SizeID join Colors on Colors.ColorID = Colors_Sizes.ColorID join Sizes on Sizes.SizeID = Colors_Sizes.SizeID where ProductID = {productId}", connection);
+                SqlCommand command = new SqlCommand($"Select ProductID, ProductName, Gender, Brands.BrandName, Type, Colors.ColorName, Sizes.SizeName, Price, Amount from Products join Brands on Brands.BrandID = Products.BrandID join Colors_Sizes on Products.Color_SizeID = Colors_Sizes.Color_SizeID join Colors on Colors.ColorID = Colors_Sizes.ColorID join Sizes on Sizes.SizeID = Colors_Sizes.SizeID where ProductID = {productId}", connection);
                 SqlDataReader reader = command.ExecuteReader();
                 reader.Read();
                 return new Product(
@@ -309,6 +303,10 @@ namespace Shop
 
         internal byte[] GetProductPhoto(Product product)
         {
+            if(product == null)
+            {
+                product = new Product(6, "df", "df", "df", "df", "df", "df", 123456, 2);
+            }
             byte[] image;
             ShopAccessLibrary library = new ShopAccessLibrary();
             string photoName = library.GetProductImageName(product.ProductId);
@@ -359,7 +357,7 @@ namespace Shop
         }
         internal int GetColorId(string color)
         {
-            string colorIdQuery = $"select Colors.ColorID from Colors where Colors.Color = '{color}'";
+            string colorIdQuery = $"select Colors.ColorID from Colors where Colors.ColorName = '{color}'";
             int colorId = default;
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -377,7 +375,7 @@ namespace Shop
         }
         internal int GetSizeId(string size)
         {
-            string sizeIdQuery = $"select Sizes.SizeID from Sizes where Sizes.Size = '{size}'";
+            string sizeIdQuery = $"select Sizes.SizeID from Sizes where Sizes.SizeName = '{size}'";
             int sizeId = default;
 
             using (SqlConnection connection = new SqlConnection(_connectionString))

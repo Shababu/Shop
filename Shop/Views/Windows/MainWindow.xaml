@@ -267,8 +267,8 @@
                                         </DataGrid.Columns>
                                     </DataGrid>
 
-                                    <Button Grid.Row="1" Grid.Column="0" Content="Подробнее..." Style="{StaticResource BlueButtonStyle}" Visibility="{Binding MoreButtonProductFormVisibility}"/>
-                                    <Button Grid.Row="1" Grid.Column="1" Content="Изменить" Style="{StaticResource BlueButtonStyle}" Visibility="{Binding UpdateButtonProductFormVisibility}"/>
+                                    <Button Grid.Row="1" Grid.Column="0" Content="Изменить" Style="{StaticResource BlueButtonStyle}" Visibility="{Binding UpdateButtonProductFormVisibility}"/>
+                                    <Button Grid.Row="1" Grid.Column="1" Content="Удалить" Style="{StaticResource BlueButtonStyle}" Visibility="{Binding DeleteButtonProductFormVisibility}" Command="{Binding DeleteProductCommand}"/>
 
                                 </Grid>
                             </StackPanel>
@@ -647,7 +647,8 @@
                                         
                                         <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DataGridStyle}" 
                                             Visibility="{Binding DataGridForFindProductFormVisibility}" 
-                                            ItemsSource="{Binding FindProductsResult}">
+                                            ItemsSource="{Binding FindProductsResult}"
+                                            SelectedItem="{Binding SelectedProductForCart, Mode=TwoWay}">
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="Id" Binding="{Binding ProductId}"/>
                                                 <DataGridTextColumn Header="Наименование" Binding="{Binding ProductName}"/>
@@ -676,7 +677,7 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-                <TabControl Visibility="Hidden">
+                <TabControl Visibility="Collapsed">
                         <TabItem Header="Stats">
                             <Grid x:Name="gridAddEmployeeForm" >
                                 <Grid.ColumnDefinitions>
